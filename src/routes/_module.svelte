@@ -7,6 +7,7 @@
   <a href={$url('/hello-world-a')} class:active={$isActive('/hello-world-a')}>Hello World A</a>
   <a href={$url('/hello-world-b')} class:active={$isActive('/hello-world-b')}>Hello World B</a>
   <a href={$url('/hello-world-c')} class:active={$isActive('/hello-world-c')}>Hello World C</a>
+  <a href={$url('/jsxgraph-smoke')} class:active={$isActive('/jsxgraph-smoke')}>JSXGraph</a>
 </nav>
 
 <main>
