@@ -7,10 +7,10 @@ const GRID = '#e6e1d8'
 
 const FONT_CSS = 'font-family:"IBM Plex Mono",monospace;'
 
-const D2R = Math.PI / 180
+const degreeToRadian = Math.PI / 180
 
 function skewTangent(skew: number, slope: number) {
-  const t = Math.tan(skew * D2R)
+  const t = Math.tan(skew * degreeToRadian)
   return Math.abs(slope * t) < 1 ? t : 0
 }
 
