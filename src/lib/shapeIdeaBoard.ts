@@ -1,58 +1,58 @@
 import JXG from 'jsxgraph'
 
-const INK = '#151312'
-const INK2 = '#5a554f'
-const RED = '#e3121b'
-const GRID = '#e6e1d8'
+const inkColor = '#151312'
+const secondaryInkColor = '#5a554f'
+const quadColor = '#e3121b'
+const gridColor = '#e6e1d8'
 
 const FONT_CSS = 'font-family:"IBM Plex Mono",monospace;'
 
 const degreeToRadian = Math.PI / 180
 
-function skewTangent(skew: number, slope: number) {
-  const t = Math.tan(skew * degreeToRadian)
-  return Math.abs(slope * t) < 1 ? t : 0
+function skewTangent(skewDegrees: number, slope: number) {
+  const tangent = Math.tan(skewDegrees * degreeToRadian)
+  return Math.abs(slope * tangent) < 1 ? tangent : 0
 }
 
-function corner(cx: number, y: number, hw: number, slope: number, t: number): [number, number] {
-  const dx = hw / (1 - slope * t)
-  return [cx + dx, y + dx * t]
+function computeCorner(centerX: number, edgeY: number, signedHalfWidth: number, slope: number, tangent: number): [number, number] {
+  const horizontalOffset = signedHalfWidth / (1 - slope * tangent)
+  return [centerX + horizontalOffset, edgeY + horizontalOffset * tangent]
 }
 
-function getCorners(cx: number, yMin: number, h: number, wb: number, wt: number, sb: number, st: number) {
-  const hb = wb * 0.5, ht = wt * 0.5, slope = h > 0 ? (ht - hb) / h : 0
-  const tb = skewTangent(sb, slope), tt = skewTangent(st, slope), yMax = yMin + h
+function getCorners(centerX: number, bottomY: number, height: number, bottomWidth: number, topWidth: number, bottomSkewDegrees: number, topSkewDegrees: number) {
+  const bottomHalfWidth = bottomWidth * 0.5, topHalfWidth = topWidth * 0.5, slope = height > 0 ? (topHalfWidth - bottomHalfWidth) / height : 0
+  const bottomTangent = skewTangent(bottomSkewDegrees, slope), topTangent = skewTangent(topSkewDegrees, slope), topY = bottomY + height
   return {
-    slope, tb, tt, hb, ht, yMin, yMax,
-    bl: corner(cx, yMin, -hb, -slope, tb), tl: corner(cx, yMax, -ht, -slope, tt),
-    tr: corner(cx, yMax, ht, slope, tt), br: corner(cx, yMin, hb, slope, tb),
+    slope, bottomTangent, topTangent, bottomHalfWidth, topHalfWidth, bottomY, topY,
+    bottomLeft: computeCorner(centerX, bottomY, -bottomHalfWidth, -slope, bottomTangent), topLeft: computeCorner(centerX, topY, -topHalfWidth, -slope, topTangent),
+    topRight: computeCorner(centerX, topY, topHalfWidth, slope, topTangent), bottomRight: computeCorner(centerX, bottomY, bottomHalfWidth, slope, bottomTangent),
   }
 }
 
-function axis(): JXG.AxisAttributes {
+function createAxisAttributes(): JXG.AxisAttributes {
   const label: JXG.LabelOptions & { cssDefaultStyle: string } = {
-    fontSize: 10, strokeColor: INK2, display: 'internal', cssDefaultStyle: FONT_CSS, highlight: false,
+    fontSize: 10, strokeColor: secondaryInkColor, display: 'internal', cssDefaultStyle: FONT_CSS, highlight: false,
   }
-  return { strokeColor: GRID, highlight: false, ticks: { strokeColor: GRID, minorTicks: 1, majorHeight: 6, label } }
+  return { strokeColor: gridColor, highlight: false, ticks: { strokeColor: gridColor, minorTicks: 1, majorHeight: 6, label } }
 }
 
-function quad(board: JXG.Board, c: () => ReturnType<typeof getCorners>) {
-  return board.create('polygon', [() => c().bl, () => c().tl, () => c().tr, () => c().br], {
-    fillColor: RED, fillOpacity: 0.85, highlight: false,
-    borders: { strokeColor: RED, strokeWidth: 1, highlight: false }, vertices: { visible: false },
+function createQuad(board: JXG.Board, getQuadCorners: () => ReturnType<typeof getCorners>) {
+  return board.create('polygon', [() => getQuadCorners().bottomLeft, () => getQuadCorners().topLeft, () => getQuadCorners().topRight, () => getQuadCorners().bottomRight], {
+    fillColor: quadColor, fillOpacity: 0.85, highlight: false,
+    borders: { strokeColor: quadColor, strokeWidth: 1, highlight: false }, vertices: { visible: false },
   })
 }
 
-function txt(board: JXG.Board, x: number, y: number, s: string, attrs?: JXG.TextAttributes) {
-  return board.create('text', [x, y, s], {
+function createLabel(board: JXG.Board, positionX: number, positionY: number, labelText: string, extraAttributes?: JXG.TextAttributes) {
+  return board.create('text', [positionX, positionY, labelText], {
     fontSize: 12, anchorX: 'middle', anchorY: 'middle', highlight: false, parse: false,
-    strokeColor: INK, cssDefaultStyle: FONT_CSS, display: 'internal', ...attrs,
+    strokeColor: inkColor, cssDefaultStyle: FONT_CSS, display: 'internal', ...extraAttributes,
   })
 }
 
-function pt(board: JXG.Board, xy: [number, number]) {
-  return board.create('point', xy, {
-    fixed: true, size: 3, strokeColor: INK, fillColor: INK, highlight: false, showInfobox: false, withLabel: false,
+function createCornerMarker(board: JXG.Board, position: [number, number]) {
+  return board.create('point', position, {
+    fixed: true, size: 3, strokeColor: inkColor, fillColor: inkColor, highlight: false, showInfobox: false, withLabel: false,
   })
 }
 
@@ -61,28 +61,28 @@ export function buildShapeIdeaBoard(container: HTMLElement): JXG.Board {
     infobox: Partial<JXG.InfoboxOptions>
     zoom: JXG.ZoomOptions & { enabled: boolean }
   } = {
-    boundingbox: [-160, 270, 560, -250], axis: true, defaultAxes: { x: axis(), y: axis() },
+    boundingbox: [-160, 270, 560, -250], axis: true, defaultAxes: { x: createAxisAttributes(), y: createAxisAttributes() },
     keepaspectratio: true, showNavigation: false, showCopyright: false, showInfobox: false,
     pan: { enabled: false }, zoom: { enabled: false }, drag: { enabled: true }, resize: { enabled: true, throttle: 10 },
     infobox: { cssDefaultStyle: FONT_CSS, highlight: false },
     title:
       'Three shapes side by side: a plain rectangle, a tapered quad, and a tapered quad with skewed end cuts. All three have exactly four corners.',
   }
-  const b = JXG.JSXGraph.initBoard(container, attributes)
+  const board = JXG.JSXGraph.initBoard(container, attributes)
 
-  const A = () => getCorners(-40, -200, 400, 60, 60, 0, 0)
-  const B = () => getCorners(200, -200, 400, 60, 24, 0, 0)
-  const C = () => getCorners(440, -200, 400, 60, 24, 15, 35)
-  quad(b, A)
-  quad(b, B)
-  quad(b, C)
-  for (const p of [C().bl, C().tl, C().tr, C().br]) pt(b, p)
-  txt(b, -40, -230, 'Image (default)')
-  txt(b, 200, -230, '+ taper')
-  txt(b, 440, -230, '+ skew at both ends')
-  txt(b, -40, 235, '60 → 60', { strokeColor: INK2 })
-  txt(b, 200, 235, '60 → 24', { strokeColor: INK2 })
-  txt(b, 440, 250, 'cuts 15° / 35°', { strokeColor: INK2 })
+  const rectangleCorners = () => getCorners(-40, -200, 400, 60, 60, 0, 0)
+  const taperedCorners = () => getCorners(200, -200, 400, 60, 24, 0, 0)
+  const skewedCorners = () => getCorners(440, -200, 400, 60, 24, 15, 35)
+  createQuad(board, rectangleCorners)
+  createQuad(board, taperedCorners)
+  createQuad(board, skewedCorners)
+  for (const cornerPosition of [skewedCorners().bottomLeft, skewedCorners().topLeft, skewedCorners().topRight, skewedCorners().bottomRight]) createCornerMarker(board, cornerPosition)
+  createLabel(board, -40, -230, 'Image (default)')
+  createLabel(board, 200, -230, '+ taper')
+  createLabel(board, 440, -230, '+ skew at both ends')
+  createLabel(board, -40, 235, '60 → 60', { strokeColor: secondaryInkColor })
+  createLabel(board, 200, 235, '60 → 24', { strokeColor: secondaryInkColor })
+  createLabel(board, 440, 250, 'cuts 15° / 35°', { strokeColor: secondaryInkColor })
 
-  return b
+  return board
 }
