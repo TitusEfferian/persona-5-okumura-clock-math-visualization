@@ -5,6 +5,7 @@
 <h1>Home</h1>
 <ul>
   <li><a href={$url('/shape-idea')}>shape-idea</a></li>
+  <li><a href={$url('/geometry-visualization')}>geometry-visualization</a></li>
   <li><a href={$url('/hello-world-b')}>Hello World B</a></li>
   <li><a href={$url('/hello-world-c')}>Hello World C</a></li>
 </ul>
