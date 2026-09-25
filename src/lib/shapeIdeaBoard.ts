@@ -1,22 +1,12 @@
 import JXG from 'jsxgraph'
 
-// Figure "1 · The one idea" from "Tapered Quad Anatomy.html": three red quads (Image,
-// + taper, + skew at both ends), four fixed corner markers on the skewed quad, six
-// captions and the axes. Nothing is computed on drag. As in the original, the captions
-// are free text elements, so they can be dragged around.
-
-// The original page's light palette.
 const INK = '#151312'
 const INK2 = '#5a554f'
 const RED = '#e3121b'
 const GRID = '#e6e1d8'
 
-// The original set this font, display: 'internal' and highlight: false on the global
-// JXG.Options.text. Here they are passed per element (and per board for the hidden
-// infobox), so other boards keep JSXGraph's defaults.
 const FONT_CSS = 'font-family:"IBM Plex Mono",monospace;'
 
-// ===== exact port of TaperedQuad.cs =====
 const D2R = Math.PI / 180
 
 function skewTangent(skew: number, slope: number) {
@@ -40,7 +30,6 @@ function getCorners(cx: number, yMin: number, h: number, wb: number, wt: number,
 }
 
 function axis(): JXG.AxisAttributes {
-  // cssDefaultStyle is a valid text attribute, but the 1.13.3 typings leave it out of LabelOptions.
   const label: JXG.LabelOptions & { cssDefaultStyle: string } = {
     fontSize: 10, strokeColor: INK2, display: 'internal', cssDefaultStyle: FONT_CSS, highlight: false,
   }
@@ -68,7 +57,6 @@ function pt(board: JXG.Board, xy: [number, number]) {
 }
 
 export function buildShapeIdeaBoard(container: HTMLElement): JXG.Board {
-  // The 1.13.3 typings lack two valid attributes: the board's infobox, and zoom.enabled.
   const attributes: Partial<JXG.BoardAttributes> & {
     infobox: Partial<JXG.InfoboxOptions>
     zoom: JXG.ZoomOptions & { enabled: boolean }
@@ -76,10 +64,7 @@ export function buildShapeIdeaBoard(container: HTMLElement): JXG.Board {
     boundingbox: [-160, 270, 560, -250], axis: true, defaultAxes: { x: axis(), y: axis() },
     keepaspectratio: true, showNavigation: false, showCopyright: false, showInfobox: false,
     pan: { enabled: false }, zoom: { enabled: false }, drag: { enabled: true }, resize: { enabled: true, throttle: 10 },
-    // The coordinate infobox is never shown (showInfobox is false) but is still created;
-    // this gives it the text defaults it had in the original.
     infobox: { cssDefaultStyle: FONT_CSS, highlight: false },
-    // JSXGraph writes this to the container's aria-label.
     title:
       'Three shapes side by side: a plain rectangle, a tapered quad, and a tapered quad with skewed end cuts. All three have exactly four corners.',
   }

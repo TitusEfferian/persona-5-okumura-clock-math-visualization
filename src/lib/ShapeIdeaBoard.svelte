@@ -11,11 +11,9 @@
   })
 </script>
 
-<!-- Fixed at the original figure's native size; the page scales it to fit. -->
 <div bind:this={container} class="jxgbox"></div>
 
 <style>
-  /* Scoped rules beat jsxgraph.css's .jxgbox / .JXGtext on specificity. */
   .jxgbox {
     box-sizing: border-box;
     width: 848px;
@@ -28,7 +26,6 @@
     margin: 0;
     touch-action: none;
   }
-  /* JSXGraph creates these nodes at runtime, outside Svelte's scoping. */
   .jxgbox :global(svg text) {
     cursor: default;
     user-select: none;
