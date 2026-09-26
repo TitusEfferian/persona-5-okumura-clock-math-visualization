@@ -1,8 +1,7 @@
-name: On merge to main
+name: On push to main
 
 on:
-  pull_request:
-    types: [closed]
+  push:
     branches: [main]
   workflow_dispatch:
 
@@ -11,8 +10,6 @@ permissions:
 
 jobs:
   hello:
-    # Manual dispatch always runs; closed PRs run only if actually merged
-    if: github.event_name == 'workflow_dispatch' || github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
       - run: echo "hello world"
