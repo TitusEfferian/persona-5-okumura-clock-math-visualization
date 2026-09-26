@@ -1,6 +1,7 @@
 <script lang="ts">
   import type { Snippet } from 'svelte'
   import { url } from '@roxi/routify'
+  import ThemeToggle from './ThemeToggle.svelte'
 
   let { title, children }: { title: string; children: Snippet } = $props()
 </script>
@@ -24,6 +25,9 @@
       </svg>
     </a>
     <h1 class="truncate text-lg font-semibold">{title}</h1>
+  </div>
+  <div class="navbar-end">
+    <ThemeToggle />
   </div>
 </header>
 

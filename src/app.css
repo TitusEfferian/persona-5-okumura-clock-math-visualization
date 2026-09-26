@@ -1,10 +1,46 @@
 @import "tailwindcss";
 @plugin "daisyui" {
-  themes: light --default;
+  themes: light;
 }
 
-:root {
-  color-scheme: light;
+/* Palette: https://www.color-hex.com/color-palette/1019867 ("Persona 5 Phantom Thieves") */
+@plugin "daisyui/theme" {
+  name: "persona5royal";
+  default: true;
+  prefersdark: false;
+  color-scheme: dark;
+
+  --color-base-100: #0d0d0d;
+  --color-base-200: #161616;
+  --color-base-300: #222222;
+  --color-base-content: #f5f5f5;
+
+  --color-primary: #d92323;
+  --color-primary-content: #ffffff;
+  --color-secondary: #732424;
+  --color-secondary-content: #ffffff;
+  --color-accent: #f2e852;
+  --color-accent-content: #0d0d0d;
+  --color-neutral: #8c6723;
+  --color-neutral-content: #ffffff;
+
+  --color-info: #3b82f6;
+  --color-info-content: #ffffff;
+  --color-success: #22c55e;
+  --color-success-content: #0d0d0d;
+  --color-warning: #f2e852;
+  --color-warning-content: #0d0d0d;
+  --color-error: #d92323;
+  --color-error-content: #ffffff;
+
+  --radius-selector: 0rem;
+  --radius-field: 0rem;
+  --radius-box: 0.25rem;
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
+  --border: 2px;
+  --depth: 1;
+  --noise: 0;
 }
 
 #app {
