@@ -15,9 +15,9 @@
 </svelte:head>
 
 <div class="hero min-h-screen bg-base-200">
-  <div class="hero-content text-center">
-    <div class="max-w-5xl">
-      <h1 class="text-3xl font-bold sm:text-4xl lg:text-5xl">
+  <div class="hero-content w-full text-center">
+    <div class="w-full max-w-5xl">
+      <h1 class="text-[clamp(1.25rem,5vw,3rem)] leading-tight font-bold">
         <span class="block whitespace-nowrap">Persona 5 Okumura Kunikazu Timer</span>
         <span class="block whitespace-nowrap">Geometry Visualization</span>
       </h1>
