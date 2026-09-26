@@ -7,5 +7,5 @@
   <li><a href={$url('/shape-idea')}>shape-idea</a></li>
   <li><a href={$url('/geometry-visualization')}>geometry-visualization</a></li>
   <li><a href={$url('/addtriangle-visualization')}>addtriangle-visualization</a></li>
-  <li><a href={$url('/hello-world-c')}>Hello World C</a></li>
+  <li><a href={$url('/skew-tangent-visualization')}>skew-tangent-visualization</a></li>
 </ul>
