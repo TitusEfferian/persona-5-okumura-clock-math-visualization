@@ -25,3 +25,7 @@ dist-ssr
 
 # Routify generated files
 .routify
+
+# Vercel
+.vercel
+.env*
