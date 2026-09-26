@@ -6,7 +6,7 @@
   <a href={$url('/')} class:active={$isActive('/')}>Home</a>
   <a href={$url('/shape-idea')} class:active={$isActive('/shape-idea')}>shape-idea</a>
   <a href={$url('/geometry-visualization')} class:active={$isActive('/geometry-visualization')}>geometry-visualization</a>
-  <a href={$url('/hello-world-b')} class:active={$isActive('/hello-world-b')}>Hello World B</a>
+  <a href={$url('/addtriangle-visualization')} class:active={$isActive('/addtriangle-visualization')}>addtriangle-visualization</a>
   <a href={$url('/hello-world-c')} class:active={$isActive('/hello-world-c')}>Hello World C</a>
 </nav>
 
