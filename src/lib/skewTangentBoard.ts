@@ -32,11 +32,16 @@ function createPoint(board: JXG.Board, position: [number, number], extra?: JXG.P
 }
 
 function createSlider(board: JXG.Board, y: number, initial: number, name: string, color: string) {
-  return board.create('slider', [[150, y], [330, y], [-45, initial, 45]], {
+  return board.create('slider', [[150, y], [280, y], [-45, initial, 45]], {
     name, snapWidth: 1, digits: 0, fillColor: color, strokeColor: color, highlight: false,
     baseline: { strokeColor: secondaryInkColor, highlight: false }, highline: { strokeColor: color, highlight: false },
-    ticks: { visible: false }, label: labelAttributes({ fontSize: 12, strokeColor: inkColor }),
+    ticks: { visible: false }, label: labelAttributes({ fontSize: 9, strokeColor: inkColor }),
   })
+}
+
+function createSmallAxisAttributes(): JXG.AxisAttributes {
+  const axis = createAxisAttributes()
+  return { ...axis, ticks: { ...axis.ticks, label: { ...axis.ticks?.label, fontSize: 8 } } }
 }
 
 export function buildSkewTangentBoard(container: HTMLElement): JXG.Board {
@@ -44,7 +49,7 @@ export function buildSkewTangentBoard(container: HTMLElement): JXG.Board {
     infobox: Partial<JXG.InfoboxOptions>
     zoom: JXG.ZoomOptions & { enabled: boolean }
   } = {
-    boundingbox: [-330, 250, 390, -310], axis: true, defaultAxes: { x: createAxisAttributes(), y: createAxisAttributes() },
+    boundingbox: [-330, 250, 390, -310], axis: true, defaultAxes: { x: createSmallAxisAttributes(), y: createSmallAxisAttributes() },
     keepaspectratio: true, showNavigation: false, showCopyright: false, showInfobox: false,
     pan: { enabled: false }, zoom: { enabled: false }, drag: { enabled: true }, resize: { enabled: true, throttle: 10 },
     infobox: { cssDefaultStyle: FONT_CSS, highlight: false },
@@ -68,11 +73,11 @@ export function buildSkewTangentBoard(container: HTMLElement): JXG.Board {
 
   const baseMidpoint = createPoint(board, [0, Y_MIN], {
     size: 4, strokeColor: baseCutColor, fillColor: baseCutColor, name: 'base midpoint', withLabel: true,
-    label: labelAttributes({ offset: [0, -16], anchorX: 'middle', fontSize: 11, strokeColor: baseCutColor }),
+    label: labelAttributes({ offset: [0, -12], anchorX: 'middle', fontSize: 8, strokeColor: baseCutColor }),
   })
   const tipMidpoint = createPoint(board, [0, Y_MAX], {
     size: 4, strokeColor: tipCutColor, fillColor: tipCutColor, name: 'tip midpoint', withLabel: true,
-    label: labelAttributes({ offset: [-12, 22], anchorX: 'right', fontSize: 11, strokeColor: tipCutColor }),
+    label: labelAttributes({ offset: [-9, 16], anchorX: 'right', fontSize: 8, strokeColor: tipCutColor }),
   })
 
   const baseCut = board.create('line', [baseMidpoint, () => [100, Y_MIN + 100 * corners().bottomTangent]], { strokeColor: baseCutColor, strokeWidth: 1.5, highlight: false })
@@ -85,12 +90,12 @@ export function buildSkewTangentBoard(container: HTMLElement): JXG.Board {
   const createCorner = (cut: JXG.Line, side: JXG.Line, name: string, color: string, offset: [number, number], anchorX: 'left' | 'right') =>
     board.create('intersection', [cut, side, 0], {
       size: 5, strokeColor: color, fillColor: color, highlight: false, showInfobox: false, name, withLabel: true,
-      label: labelAttributes({ offset, anchorX, fontSize: 11, strokeColor: color }),
+      label: labelAttributes({ offset, anchorX, fontSize: 8, strokeColor: color }),
     })
-  const bottomLeft = createCorner(baseCut, leftSide, '0 BL', baseCutColor, [-8, -8], 'right')
-  const bottomRight = createCorner(baseCut, rightSide, '3 BR', baseCutColor, [8, -8], 'left')
-  const topLeft = createCorner(tipCut, leftSide, '1 TL', tipCutColor, [-8, 8], 'right')
-  const topRight = createCorner(tipCut, rightSide, '2 TR', tipCutColor, [8, 8], 'left')
+  const bottomLeft = createCorner(baseCut, leftSide, '0 BL', baseCutColor, [-6, -6], 'right')
+  const bottomRight = createCorner(baseCut, rightSide, '3 BR', baseCutColor, [6, -6], 'left')
+  const topLeft = createCorner(tipCut, leftSide, '1 TL', tipCutColor, [-6, 6], 'right')
+  const topRight = createCorner(tipCut, rightSide, '2 TR', tipCutColor, [6, 6], 'left')
 
   board.create('polygon', [bottomLeft, topLeft, topRight, bottomRight], {
     fillColor: quadColor, fillOpacity: 0.7, highlight: false,
@@ -115,7 +120,7 @@ export function buildSkewTangentBoard(container: HTMLElement): JXG.Board {
   const createSector = (parents: JXG.Point[], color: string, visible: () => boolean, degrees: () => number) =>
     board.create('angle', parents, {
       radius: 30, type: 'sector', fillColor: color, fillOpacity: 0.25, strokeColor: color, highlight: false,
-      visible, name: () => formatNumber(degrees(), 0) + '°', label: labelAttributes({ fontSize: 11, strokeColor: color }),
+      visible, name: () => formatNumber(degrees(), 0) + '°', label: labelAttributes({ fontSize: 8, strokeColor: color }),
     } as JXG.AngleAttributes)
   createSector([baseReference, baseMidpoint, bottomRight], baseCutColor, () => corners().bottomTangent >= 0, () => skewAtBase.Value())
   createSector([bottomRight, baseMidpoint, baseReference], baseCutColor, () => corners().bottomTangent < 0, () => -skewAtBase.Value())
@@ -124,7 +129,7 @@ export function buildSkewTangentBoard(container: HTMLElement): JXG.Board {
 
   const X = 150
   const readout = (y: number, text: string | (() => string), color = inkColor) =>
-    createLabel(board, X, y, text, { anchorX: 'left', fontSize: 11, strokeColor: color })
+    createLabel(board, X, y, text, { anchorX: 'left', fontSize: 8, strokeColor: color })
   readout(235, `widthAtBase ${WIDTH_AT_BASE}  widthAtTip ${WIDTH_AT_TIP}  height ${HEIGHT}`, secondaryInkColor)
   readout(215, () => 'slope = (50 − 80) ÷ 320 = ' + formatNumber(corners().slope, 4))
   readout(195, () => 'tanBase = ' + formatNumber(corners().bottomTangent, 4) + '   tanTip = ' + formatNumber(corners().topTangent, 4))
