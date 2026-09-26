@@ -27,7 +27,7 @@
       </h1>
       <nav class="mt-8 flex flex-wrap justify-center gap-4" aria-label="Visualizations">
         {#each links as { path, label } (path)}
-          <a href={$url(path)} class="btn">{label}</a>
+          <a href={$url(path)} class="btn btn-primary">{label}</a>
         {/each}
       </nav>
     </div>

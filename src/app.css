@@ -3,6 +3,17 @@
   themes: light;
 }
 
+/* Override the built-in light theme's brand colors with the Persona 5 palette red. */
+@plugin "daisyui/theme" {
+  name: "light";
+  --color-primary: #d92323;
+  --color-primary-content: #ffffff;
+  --color-secondary: #732424;
+  --color-secondary-content: #ffffff;
+  --color-accent: #f2e852;
+  --color-accent-content: #0d0d0d;
+}
+
 /* Palette: https://www.color-hex.com/color-palette/1019867 ("Persona 5 Phantom Thieves") */
 @plugin "daisyui/theme" {
   name: "persona5royal";
