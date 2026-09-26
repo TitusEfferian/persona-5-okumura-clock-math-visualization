@@ -1,7 +1,6 @@
 <!-- routify:meta reset -->
 <script lang="ts">
-  import { onMount } from 'svelte'
-  import { url } from '@roxi/routify'
+  import DetailShell from '../lib/DetailShell.svelte'
   import GeometryVisualizationBoard from '../lib/GeometryVisualizationBoard.svelte'
   import {
     DEFAULT_SHOW,
@@ -40,14 +39,6 @@
   function clearActivePreset() {
     activePreset = null
   }
-
-  onMount(() => {
-    const previousTitle = document.title
-    document.title = 'geometry-visualization'
-    return () => {
-      document.title = previousTitle
-    }
-  })
 </script>
 
 <svelte:head>
@@ -59,9 +50,8 @@
   />
 </svelte:head>
 
+<DetailShell title="Geometry Visualization">
 <div class="stage" bind:clientWidth={stageW} bind:clientHeight={stageH}>
-  <h1 class="sr-only">geometry-visualization</h1>
-  <a class="home" href={$url('/')}>← Home</a>
   <div
     class="fit"
     style:transform="translate(-50%, -50%) scale({scale})"
@@ -116,11 +106,15 @@
     </div>
   </div>
 </div>
+</DetailShell>
 
 <style>
   .stage {
     position: fixed;
-    inset: 0;
+    top: 4rem;
+    right: 0;
+    bottom: 0;
+    left: 0;
     overflow: hidden;
     background: #f6f4ef;
     color: #151312;
@@ -133,30 +127,6 @@
     position: absolute;
     left: 50%;
     top: 50%;
-  }
-  .home {
-    position: absolute;
-    top: 12px;
-    left: 12px;
-    z-index: 1;
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 13px;
-    color: #5a554f;
-    text-decoration: none;
-  }
-  .home:hover {
-    color: #151312;
-  }
-  .sr-only {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-    border: 0;
   }
   .play,
   .play :global(*),
