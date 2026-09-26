@@ -25,23 +25,21 @@ export type LiveState = {
   show: ShowFlags
 }
 
-export type PresetName = 'clockhand' | 'random' | 'plate' | 'default'
+export type PresetName = 'clockhand' | 'random' | 'plate'
 
 export const PRESETS: Record<PresetName, QuadParams> = {
   clockhand: { widthAtBase: 61, widthAtTip: 20.4, skewAtBase: 11, skewAtTip: 41.3, height: 464.4 },
   random: { widthAtBase: 48, widthAtTip: 32, skewAtBase: 0, skewAtTip: 0, height: 380 },
   plate: { widthAtBase: 80, widthAtTip: 52, skewAtBase: 0, skewAtTip: 0, height: 373.6 },
-  default: { widthAtBase: 21, widthAtTip: 12, skewAtBase: 0, skewAtTip: 0, height: 200 },
 }
 
 export const PRESET_LABELS: Record<PresetName, string> = {
   clockhand: 'ClockHand (thin)',
   random: 'RandomClockHand (thick)',
   plate: 'BlackFix (plate)',
-  default: 'Script defaults',
 }
 
-export const PRESET_NAMES: PresetName[] = ['clockhand', 'random', 'plate', 'default']
+export const PRESET_NAMES: PresetName[] = ['clockhand', 'random', 'plate']
 
 export type SliderSpec = { key: keyof QuadParams; label: string; min: number; max: number; step: number }
 
