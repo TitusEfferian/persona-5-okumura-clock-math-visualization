@@ -22,21 +22,23 @@ export type LiveState = {
   show: ShowFlags
 }
 
-export type PresetName = 'clockhand' | 'random' | 'plate'
+export type PresetName = 'clockhand' | 'random' | 'plate' | 'rectangle'
 
 export const PRESETS: Record<PresetName, QuadParams> = {
   clockhand: { widthAtBase: 61, widthAtTip: 20.4, skewAtBase: 11, skewAtTip: 41.3, height: 464.4 },
   random: { widthAtBase: 48, widthAtTip: 32, skewAtBase: 0, skewAtTip: 0, height: 380 },
   plate: { widthAtBase: 80, widthAtTip: 52, skewAtBase: 0, skewAtTip: 0, height: 373.6 },
+  rectangle: { widthAtBase: 60, widthAtTip: 60, skewAtBase: 0, skewAtTip: 0, height: 380 },
 }
 
 export const PRESET_LABELS: Record<PresetName, string> = {
   clockhand: 'ClockHand (thin)',
   random: 'RandomClockHand (thick)',
   plate: 'BlackFix (plate)',
+  rectangle: 'normal rectangle',
 }
 
-export const PRESET_NAMES: PresetName[] = ['clockhand', 'random', 'plate']
+export const PRESET_NAMES: PresetName[] = ['clockhand', 'random', 'plate', 'rectangle']
 
 export type SliderSpec = { key: keyof QuadParams; label: string; min: number; max: number; step: number }
 
@@ -110,7 +112,7 @@ export function buildGeometryVisualizationBoard(container: HTMLElement, live: Li
     () => [-width() / 2, corners().bottomY], () => [-width() / 2, corners().topY], () => [width() / 2, corners().topY], () => [width() / 2, corners().bottomY],
   ], {
     fillOpacity: 0, highlight: false, visible: showRect,
-    borders: { strokeColor: palette.secondaryInk, dash: 2, strokeWidth: 1, highlight: false }, vertices: { visible: false },
+    borders: { strokeColor: palette.secondaryInk, dash: 2, strokeWidth: 1, highlight: false, layer: 8 }, vertices: { visible: false },
   })
   board.create('line', [() => corners().bottomLeft, () => corners().topLeft], { strokeColor: palette.secondaryInk, strokeWidth: 1, strokeOpacity: 0.6, highlight: false, visible: showLines })
   board.create('line', [() => corners().bottomRight, () => corners().topRight], { strokeColor: palette.secondaryInk, strokeWidth: 1, strokeOpacity: 0.6, highlight: false, visible: showLines })
