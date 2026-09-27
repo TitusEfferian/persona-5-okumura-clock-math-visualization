@@ -42,7 +42,71 @@ function createSmallAxisAttributes(palette: JsxPalette): JXG.AxisAttributes {
   return { ...axis, ticks: { ...axis.ticks, label: { ...axis.ticks?.label, fontSize: 8 } } }
 }
 
-export function buildSkewTangentBoard(container: HTMLElement, palette: JsxPalette): JXG.Board {
+const CIRCLE_RADIUS = 45
+
+export interface SkewTangentBoardOptions {
+  /** Whether the unit-circle tangent overlays are visible on first render. */
+  showCircle?: boolean
+}
+
+export interface SkewTangentBoardHandle {
+  board: JXG.Board
+  setCircleVisible(visible: boolean): void
+}
+
+/**
+ * Textbook unit-circle picture of tan θ at an end midpoint: a circle of radius R, the
+ * point P where the cut line meets it on the +x side, the cos θ / sin θ legs of P and
+ * the tan θ segment on the vertical tangent line x = cx + R. Everything is derived
+ * from the cut's tangent value so it follows the sliders and negative angles.
+ */
+function createUnitCircleOverlay(
+  board: JXG.Board, palette: JsxPalette, center: [number, number], tangent: () => number, color: string, visible: boolean,
+): JXG.GeometryElement[] {
+  const [cx, cy] = center
+  const R = CIRCLE_RADIUS
+  const cosT = () => 1 / Math.sqrt(1 + tangent() * tangent())
+  const sinT = () => tangent() * cosT()
+  const px = () => cx + R * cosT()
+  const py = () => cy + R * sinT()
+  const tx = cx + R
+  const ty = () => cy + R * tangent()
+
+  const common = { fixed: true, highlight: false, visible }
+  const elements: JXG.GeometryElement[] = []
+
+  elements.push(board.create('circle', [center, R], {
+    ...common, layer: 4, strokeColor: color, strokeWidth: 1, strokeOpacity: 0.6, fillColor: color, fillOpacity: 0.04,
+  }))
+  elements.push(board.create('segment', [[tx, cy - R - 10], [tx, cy + R + 10]], {
+    ...common, layer: 4, strokeColor: color, strokeWidth: 1, strokeOpacity: 0.6, dash: 2,
+  }))
+  elements.push(board.create('segment', [[cx, cy], [px, cy]], { ...common, layer: 6, strokeColor: palette.secondaryInk, strokeWidth: 2 }))
+  elements.push(board.create('segment', [[px, cy], [px, py]], { ...common, layer: 6, strokeColor: palette.ink, strokeWidth: 2 }))
+  elements.push(board.create('segment', [[tx, cy], [tx, ty]], { ...common, layer: 6, strokeColor: color, strokeWidth: 2.5 }))
+  elements.push(board.create('point', [px, py], {
+    ...common, layer: 9, size: 3, strokeColor: color, fillColor: palette.panel, strokeWidth: 2, showInfobox: false, withLabel: false, name: 'P',
+  }))
+
+  const text = (x: number | (() => number), y: number | (() => number), str: string, textColor: string, anchorX: 'left' | 'right' | 'middle') =>
+    board.create('text', [x, y, str], {
+      ...common, layer: 9, fontSize: 8, anchorX, anchorY: 'middle', strokeColor: textColor, parse: false,
+      display: 'internal', cssDefaultStyle: FONT_CSS, cssStyle: 'pointer-events:none',
+    })
+  // Labels sit on the side of the leg away from the tangent line / circle to stay legible for both angle signs.
+  const sign = () => (tangent() >= 0 ? 1 : -1)
+  elements.push(text(() => (cx + px()) / 2, () => cy - sign() * 8, 'cos θ', palette.secondaryInk, 'middle'))
+  elements.push(text(() => px() - 4, () => (cy + py()) / 2, 'sin θ', palette.ink, 'right'))
+  elements.push(text(tx + 5, () => (cy + ty()) / 2, 'tan θ', color, 'left'))
+  elements.push(text(() => px() + 4, () => py() + sign() * 6, 'P', color, 'left'))
+
+  return elements
+}
+
+export function buildSkewTangentBoard(
+  container: HTMLElement, palette: JsxPalette, options: SkewTangentBoardOptions = {},
+): SkewTangentBoardHandle {
+  const showCircle = options.showCircle ?? true
   const attributes: Partial<JXG.BoardAttributes> & {
     infobox: Partial<JXG.InfoboxOptions>
     zoom: JXG.ZoomOptions & { enabled: boolean }
@@ -125,6 +189,11 @@ export function buildSkewTangentBoard(container: HTMLElement, palette: JsxPalett
   createSector([tipReference, tipMidpoint, topRight], palette.tipCut, () => corners().topTangent >= 0, () => skewAtTip.Value())
   createSector([topRight, tipMidpoint, tipReference], palette.tipCut, () => corners().topTangent < 0, () => -skewAtTip.Value())
 
+  const overlay = [
+    ...createUnitCircleOverlay(board, palette, [0, Y_MIN], () => corners().bottomTangent, palette.baseCut, showCircle),
+    ...createUnitCircleOverlay(board, palette, [0, Y_MAX], () => corners().topTangent, palette.tipCut, showCircle),
+  ]
+
   const X = 150
   const readout = (y: number, text: string | (() => string), color = palette.ink) =>
     createLabel(board, X, y, text, palette, { anchorX: 'left', fontSize: 8, strokeColor: color })
@@ -143,6 +212,19 @@ export function buildSkewTangentBoard(container: HTMLElement, palette: JsxPalett
   cornerRow(85, '3 BR', 'bottomRight', bottomRight, palette.baseCut)
   readout(55, () => 'base: BR rises ' + formatNumber(bottomRight.Y() - Y_MIN, 1) + ', BL drops ' + formatNumber(Y_MIN - bottomLeft.Y(), 1), palette.baseCut)
   readout(35, () => 'tip:  TR rises ' + formatNumber(topRight.Y() - Y_MAX, 1) + ', TL drops ' + formatNumber(Y_MAX - topLeft.Y(), 1), palette.tipCut)
+  const trig = (tangent: number) => {
+    const cos = 1 / Math.sqrt(1 + tangent * tangent)
+    return 'sin ' + formatNumber(tangent * cos, 4) + '  cos ' + formatNumber(cos, 4)
+  }
+  const circleReadout = readout(15, () => 'circle: base ' + trig(corners().bottomTangent) + '   tip ' + trig(corners().topTangent), palette.secondaryInk)
+  circleReadout.setAttribute({ visible: showCircle })
+  overlay.push(circleReadout)
 
-  return board
+  return {
+    board,
+    setCircleVisible(visible: boolean) {
+      for (const element of overlay) element.setAttribute({ visible })
+      board.update()
+    },
+  }
 }
