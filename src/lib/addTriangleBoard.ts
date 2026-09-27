@@ -44,7 +44,6 @@ export function buildAddTriangleBoard(container: HTMLElement, palette: JsxPalett
 
   createLabel(board, -45, 40, 'tri A  0·1·2', palette, { strokeColor: palette.tipCut, fixed: true })
   createLabel(board, 45, -40, 'tri B  2·3·0', palette, { strokeColor: palette.baseCut, fixed: true })
-  // Fixed two-line hint so it can neither be dragged nor overflow the board edges.
   const hintAttributes = { strokeColor: palette.secondaryInk, fontSize: 10, fixed: true }
   createLabel(board, 0, -178, 'vertex at every corner dragable to understand', palette, hintAttributes)
   createLabel(board, 0, -190, 'the visualization of addVert + addTriangle', palette, hintAttributes)
