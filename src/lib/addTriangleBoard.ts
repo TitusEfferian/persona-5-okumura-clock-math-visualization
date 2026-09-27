@@ -21,7 +21,7 @@ export function buildAddTriangleBoard(container: HTMLElement, palette: JsxPalett
   }
   const board = JXG.JSXGraph.initBoard(container, attributes)
 
-  // Equal widths and zero skew make getCorners produce a plain axis-aligned rectangle.
+  // normal rectangle shape
   const c = getCorners(0, -RECT_HEIGHT / 2, RECT_HEIGHT, RECT_WIDTH, RECT_WIDTH, 0, 0)
   const cornerPositions: [number, number][] = [c.bottomLeft, c.topLeft, c.topRight, c.bottomRight]
   const cornerNames = ['0 BL', '1 TL', '2 TR', '3 BR']
