@@ -52,13 +52,6 @@ export interface SkewTangentBoardHandle {
   setCircleVisible(visible: boolean): void
 }
 
-/**
- * Tangent-only unit-circle picture at an end midpoint, sized by the corner it explains. The
- * circle radius is the corner's horizontal run dx = corner.x − cx (the Unity TaperedQuad
- * `halfWidth / (1 − slope · tan θ)`), so the vertical tangent line x = corner.x passes exactly
- * through the corner and the corner's rise above the midpoint (drawn by the existing right-angle
- * legs) IS dx · tan θ. Visibility is a getter so every element, including the label, follows it.
- */
 function createUnitCircleOverlay(
   board: JXG.Board, center: [number, number], corner: JXG.Point, color: string, visible: () => boolean,
 ): JXG.GeometryElement[] {
