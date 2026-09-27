@@ -12,7 +12,7 @@
   })
 </script>
 
-<div bind:this={container} class="jxgbox" role="img" aria-label="The quad split into two triangles: vertices 0,1,2 in yellow and 2,3,0 in gold, sharing the diagonal from 0 to 2. Corners can be dragged."></div>
+<div bind:this={container} class="jxgbox" role="img" aria-label="The quad split into two triangles: triangle A (vertices 0,1,2) and triangle B (vertices 2,3,0), sharing the diagonal from 0 to 2. Corners can be dragged."></div>
 
 <style>
   .jxgbox {

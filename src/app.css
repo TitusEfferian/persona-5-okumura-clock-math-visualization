@@ -88,6 +88,19 @@
   --noise: 0;
 }
 
+/*
+ * Diagram roles for the JSXGraph boards (see src/lib/jsxgraphTheme.ts).
+ * The palette yellow reads well on black but vanishes on the light paper,
+ * so the light theme swaps the tip-cut role to the dark red.
+ */
+:root {
+  --p5-base-cut: var(--color-neutral);
+  --p5-tip-cut: var(--color-accent);
+}
+[data-theme="persona5light"] {
+  --p5-tip-cut: var(--color-secondary);
+}
+
 #app {
   min-height: 100svh;
   display: flex;

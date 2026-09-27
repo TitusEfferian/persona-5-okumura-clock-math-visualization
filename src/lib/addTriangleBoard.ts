@@ -4,7 +4,7 @@ import { FONT_CSS, createLabel } from './jsxgraphTheme'
 import type { JsxPalette } from './jsxgraphTheme'
 
 const BOARD_TITLE =
-  'The quad split into two triangles: vertices 0,1,2 in yellow and 2,3,0 in gold, sharing the diagonal from 0 to 2. Corners can be dragged.'
+  'The quad split into two triangles: triangle A (vertices 0,1,2) and triangle B (vertices 2,3,0), sharing the diagonal from 0 to 2. Corners can be dragged.'
 
 export function buildAddTriangleBoard(container: HTMLElement, palette: JsxPalette): JXG.Board {
   const attributes: Partial<JXG.BoardAttributes> & {

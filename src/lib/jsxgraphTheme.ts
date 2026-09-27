@@ -34,8 +34,8 @@ export const PALETTE: JsxPalette = {
   quad: 'var(--color-primary)',
   grid: 'var(--color-base-300)',
   panel: 'var(--color-base-100)',
-  baseCut: 'var(--color-neutral)',
-  tipCut: 'var(--color-accent)',
+  baseCut: 'var(--p5-base-cut)',
+  tipCut: 'var(--p5-tip-cut)',
 }
 
 export const FONT_CSS = 'font-family:"IBM Plex Mono",monospace;'
