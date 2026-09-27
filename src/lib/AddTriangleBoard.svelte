@@ -1,17 +1,19 @@
 <script lang="ts">
   import { onMount } from 'svelte'
   import JXG from 'jsxgraph'
+  import { createPalette } from './jsxgraphTheme'
+  import { readThemeColors } from './themeColors'
   import { buildAddTriangleBoard } from './addTriangleBoard'
 
   let container: HTMLDivElement
 
   onMount(() => {
-    const board = buildAddTriangleBoard(container)
+    const board = buildAddTriangleBoard(container, createPalette(readThemeColors(container)))
     return () => JXG.JSXGraph.freeBoard(board)
   })
 </script>
 
-<div bind:this={container} class="jxgbox" role="img" aria-label="The quad split into two triangles: vertices 0,1,2 in blue and 2,3,0 in gold, sharing the diagonal from 0 to 2. Corners can be dragged."></div>
+<div bind:this={container} class="jxgbox" role="img" aria-label="The quad split into two triangles: vertices 0,1,2 in yellow and 2,3,0 in gold, sharing the diagonal from 0 to 2. Corners can be dragged."></div>
 
 <style>
   .jxgbox {
@@ -20,8 +22,8 @@
     aspect-ratio: 1 / 1;
     position: relative;
     overflow: hidden;
-    background: #ffffff;
-    border: 1px solid #d9d4cb;
+    background: var(--color-base-200);
+    border: 1px solid var(--color-base-300);
     border-radius: 0;
     margin: 0;
     touch-action: none;

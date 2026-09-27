@@ -1,12 +1,12 @@
 import JXG from 'jsxgraph'
 import { getCorners } from './taperedQuad'
-import { FONT_CSS, createLabel, inkColor, secondaryInkColor } from './jsxgraphTheme'
-import { baseCutColor, tipCutColor } from './geometryVisualizationBoard'
+import { FONT_CSS, createLabel } from './jsxgraphTheme'
+import type { JsxPalette } from './jsxgraphTheme'
 
 const BOARD_TITLE =
-  'The quad split into two triangles: vertices 0,1,2 in blue and 2,3,0 in gold, sharing the diagonal from 0 to 2. Corners can be dragged.'
+  'The quad split into two triangles: vertices 0,1,2 in yellow and 2,3,0 in gold, sharing the diagonal from 0 to 2. Corners can be dragged.'
 
-export function buildAddTriangleBoard(container: HTMLElement): JXG.Board {
+export function buildAddTriangleBoard(container: HTMLElement, palette: JsxPalette): JXG.Board {
   const attributes: Partial<JXG.BoardAttributes> & {
     infobox: Partial<JXG.InfoboxOptions>
     zoom: JXG.ZoomOptions & { enabled: boolean }
@@ -25,23 +25,23 @@ export function buildAddTriangleBoard(container: HTMLElement): JXG.Board {
   const labelOffsets: [number, number][] = [[-8, -4], [-8, 6], [8, 6], [8, -4]]
   const points = cornerPositions.map((position, i) =>
     board.create('point', position, {
-      name: cornerNames[i], size: 5, strokeColor: inkColor, fillColor: inkColor, highlight: false, showInfobox: false, withLabel: true,
+      name: cornerNames[i], size: 5, strokeColor: palette.ink, fillColor: palette.ink, highlight: false, showInfobox: false, withLabel: true,
       label: {
-        offset: labelOffsets[i], anchorX: i < 2 ? 'right' : 'left', fontSize: 12, strokeColor: inkColor,
+        offset: labelOffsets[i], anchorX: i < 2 ? 'right' : 'left', fontSize: 12, strokeColor: palette.ink,
         cssDefaultStyle: FONT_CSS, display: 'internal', highlight: false,
       },
     }),
   )
   const [p0, p1, p2, p3] = points
 
-  const triangleAttributes = { fillOpacity: 0.35, highlight: false, hasInnerPoints: false, borders: { strokeColor: inkColor, strokeWidth: 1.5, highlight: false } }
-  board.create('polygon', [p0, p1, p2], { ...triangleAttributes, fillColor: tipCutColor })
-  board.create('polygon', [p2, p3, p0], { ...triangleAttributes, fillColor: baseCutColor })
-  board.create('segment', [p0, p2], { strokeColor: inkColor, dash: 3, strokeWidth: 2, highlight: false, fixed: true })
+  const triangleAttributes = { fillOpacity: 0.45, highlight: false, hasInnerPoints: false, borders: { strokeColor: palette.ink, strokeWidth: 1.5, highlight: false } }
+  board.create('polygon', [p0, p1, p2], { ...triangleAttributes, fillColor: palette.tipCut })
+  board.create('polygon', [p2, p3, p0], { ...triangleAttributes, fillColor: palette.baseCut })
+  board.create('segment', [p0, p2], { strokeColor: palette.ink, dash: 3, strokeWidth: 2, highlight: false, fixed: true })
 
-  createLabel(board, -45, 40, 'tri A  0·1·2', { strokeColor: tipCutColor })
-  createLabel(board, 45, -40, 'tri B  2·3·0', { strokeColor: baseCutColor })
-  createLabel(board, 0, -185, 'drag any corner', { strokeColor: secondaryInkColor, fontSize: 11 })
+  createLabel(board, -45, 40, 'tri A  0·1·2', palette, { strokeColor: palette.tipCut })
+  createLabel(board, 45, -40, 'tri B  2·3·0', palette, { strokeColor: palette.baseCut })
+  createLabel(board, 0, -185, 'drag any corner', palette, { strokeColor: palette.secondaryInk, fontSize: 11 })
 
   return board
 }

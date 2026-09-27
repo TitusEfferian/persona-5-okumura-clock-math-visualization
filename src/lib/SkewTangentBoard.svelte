@@ -1,12 +1,14 @@
 <script lang="ts">
   import { onMount } from 'svelte'
   import JXG from 'jsxgraph'
+  import { createPalette } from './jsxgraphTheme'
+  import { readThemeColors } from './themeColors'
   import { buildSkewTangentBoard } from './skewTangentBoard'
 
   let container: HTMLDivElement
 
   onMount(() => {
-    const board = buildSkewTangentBoard(container)
+    const board = buildSkewTangentBoard(container, createPalette(readThemeColors(container)))
     return () => JXG.JSXGraph.freeBoard(board)
   })
 </script>
@@ -20,8 +22,8 @@
     aspect-ratio: 720 / 560;
     position: relative;
     overflow: hidden;
-    background: #ffffff;
-    border: 1px solid #d9d4cb;
+    background: var(--color-base-200);
+    border: 1px solid var(--color-base-300);
     border-radius: 0;
     margin: 0;
     touch-action: none;

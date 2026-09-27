@@ -41,9 +41,9 @@
     bottom: 0;
     left: 0;
     overflow: hidden;
-    background: #f6f4ef;
-    color: #151312;
-    color-scheme: light;
+    background: var(--color-base-100);
+    color: var(--color-base-content);
+    color-scheme: dark;
     text-align: start;
     line-height: normal;
     letter-spacing: normal;
