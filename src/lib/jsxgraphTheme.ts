@@ -62,7 +62,7 @@ export function createQuad(board: JXG.Board, getQuadCorners: () => QuadCorners, 
 
 export function createLabel(board: JXG.Board, positionX: number, positionY: number, labelText: string | (() => string), p: JsxPalette, extraAttributes?: JXG.TextAttributes) {
   return board.create('text', [positionX, positionY, labelText], {
-    fontSize: 12, anchorX: 'middle', anchorY: 'middle', highlight: false, parse: false,
+    fontSize: 12, anchorX: 'middle', anchorY: 'middle', highlight: false, parse: false, fixed: true,
     strokeColor: p.ink, highlightStrokeColor: p.ink, cssDefaultStyle: FONT_CSS, display: 'internal', ...extraAttributes,
   })
 }
