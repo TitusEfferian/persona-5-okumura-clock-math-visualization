@@ -55,20 +55,17 @@ export interface SkewTangentBoardHandle {
 }
 
 /**
- * Textbook unit-circle picture of tan θ at an end midpoint: a circle of radius R, the
- * point P where the cut line meets it on the +x side, the cos θ / sin θ legs of P and
- * the tan θ segment on the vertical tangent line x = cx + R. Everything is derived
- * from the cut's tangent value so it follows the sliders and negative angles.
+ * Tangent-only unit-circle picture at an end midpoint: a circle of radius R, the vertical
+ * tangent line x = cx + R, a thin dashed radius from the center to the tangent foot (so the
+ * right angle there is visible), and the tan θ segment rising from the foot to the point T
+ * where the cut line meets the tangent line. Everything is derived from the cut's tangent
+ * value so it follows the sliders and negative angles.
  */
 function createUnitCircleOverlay(
   board: JXG.Board, palette: JsxPalette, center: [number, number], tangent: () => number, color: string, visible: boolean,
 ): JXG.GeometryElement[] {
   const [cx, cy] = center
   const R = CIRCLE_RADIUS
-  const cosT = () => 1 / Math.sqrt(1 + tangent() * tangent())
-  const sinT = () => tangent() * cosT()
-  const px = () => cx + R * cosT()
-  const py = () => cy + R * sinT()
   const tx = cx + R
   const ty = () => cy + R * tangent()
 
@@ -81,24 +78,17 @@ function createUnitCircleOverlay(
   elements.push(board.create('segment', [[tx, cy - R - 10], [tx, cy + R + 10]], {
     ...common, layer: 4, strokeColor: color, strokeWidth: 1, strokeOpacity: 0.6, dash: 2,
   }))
-  elements.push(board.create('segment', [[cx, cy], [px, cy]], { ...common, layer: 6, strokeColor: palette.secondaryInk, strokeWidth: 2 }))
-  elements.push(board.create('segment', [[px, cy], [px, py]], { ...common, layer: 6, strokeColor: palette.ink, strokeWidth: 2 }))
-  elements.push(board.create('segment', [[tx, cy], [tx, ty]], { ...common, layer: 6, strokeColor: color, strokeWidth: 2.5 }))
-  elements.push(board.create('point', [px, py], {
-    ...common, layer: 9, size: 3, strokeColor: color, fillColor: palette.panel, strokeWidth: 2, showInfobox: false, withLabel: false, name: 'P',
+  elements.push(board.create('segment', [[cx, cy], [tx, cy]], {
+    ...common, layer: 4, strokeColor: color, strokeWidth: 1, strokeOpacity: 0.6, dash: 2,
   }))
-
-  const text = (x: number | (() => number), y: number | (() => number), str: string, textColor: string, anchorX: 'left' | 'right' | 'middle') =>
-    board.create('text', [x, y, str], {
-      ...common, layer: 9, fontSize: 8, anchorX, anchorY: 'middle', strokeColor: textColor, parse: false,
-      display: 'internal', cssDefaultStyle: FONT_CSS, cssStyle: 'pointer-events:none',
-    })
-  // Labels sit on the side of the leg away from the tangent line / circle to stay legible for both angle signs.
-  const sign = () => (tangent() >= 0 ? 1 : -1)
-  elements.push(text(() => (cx + px()) / 2, () => cy - sign() * 8, 'cos θ', palette.secondaryInk, 'middle'))
-  elements.push(text(() => px() - 4, () => (cy + py()) / 2, 'sin θ', palette.ink, 'right'))
-  elements.push(text(tx + 5, () => (cy + ty()) / 2, 'tan θ', color, 'left'))
-  elements.push(text(() => px() + 4, () => py() + sign() * 6, 'P', color, 'left'))
+  elements.push(board.create('segment', [[tx, cy], [tx, ty]], { ...common, layer: 6, strokeColor: color, strokeWidth: 2.5 }))
+  elements.push(board.create('point', [tx, ty], {
+    ...common, layer: 9, size: 2, strokeColor: color, fillColor: color, showInfobox: false, withLabel: false,
+  }))
+  elements.push(board.create('text', [tx + 5, () => (cy + ty()) / 2, 'tan θ'], {
+    ...common, layer: 9, fontSize: 8, anchorX: 'left', anchorY: 'middle', strokeColor: color, parse: false,
+    display: 'internal', cssDefaultStyle: FONT_CSS, cssStyle: 'pointer-events:none',
+  }))
 
   return elements
 }
@@ -212,13 +202,6 @@ export function buildSkewTangentBoard(
   cornerRow(85, '3 BR', 'bottomRight', bottomRight, palette.baseCut)
   readout(55, () => 'base: BR rises ' + formatNumber(bottomRight.Y() - Y_MIN, 1) + ', BL drops ' + formatNumber(Y_MIN - bottomLeft.Y(), 1), palette.baseCut)
   readout(35, () => 'tip:  TR rises ' + formatNumber(topRight.Y() - Y_MAX, 1) + ', TL drops ' + formatNumber(Y_MAX - topLeft.Y(), 1), palette.tipCut)
-  const trig = (tangent: number) => {
-    const cos = 1 / Math.sqrt(1 + tangent * tangent)
-    return 'sin ' + formatNumber(tangent * cos, 4) + '  cos ' + formatNumber(cos, 4)
-  }
-  const circleReadout = readout(15, () => 'circle: base ' + trig(corners().bottomTangent) + '   tip ' + trig(corners().topTangent), palette.secondaryInk)
-  circleReadout.setAttribute({ visible: showCircle })
-  overlay.push(circleReadout)
 
   return {
     board,
