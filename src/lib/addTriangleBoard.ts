@@ -44,7 +44,7 @@ export function buildAddTriangleBoard(container: HTMLElement, palette: JsxPalett
 
   createLabel(board, -45, 40, 'tri A  0·1·2', palette, { strokeColor: palette.tipCut })
   createLabel(board, 45, -40, 'tri B  2·3·0', palette, { strokeColor: palette.baseCut })
-  createLabel(board, 0, -185, 'drag any corner', palette, { strokeColor: palette.secondaryInk, fontSize: 11 })
+  createLabel(board, 0, -185, 'vertex at every corner dragable to understand the visualization of addVert + addTriangle', palette, { strokeColor: palette.secondaryInk, fontSize: 10 })
 
   return board
 }
