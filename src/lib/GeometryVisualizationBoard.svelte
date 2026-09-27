@@ -1,6 +1,8 @@
 <script lang="ts">
   import { onMount } from 'svelte'
   import JXG from 'jsxgraph'
+  import { createPalette } from './jsxgraphTheme'
+  import { readThemeColors } from './themeColors'
   import { DEFAULT_SHOW, PRESETS, buildGeometryVisualizationBoard, snapPreset } from './geometryVisualizationBoard'
   import type { LiveState, QuadParams, ShowFlags } from './geometryVisualizationBoard'
 
@@ -13,7 +15,7 @@
   onMount(() => {
     live.params = $state.snapshot(params)
     live.show = $state.snapshot(show)
-    board = buildGeometryVisualizationBoard(container, live)
+    board = buildGeometryVisualizationBoard(container, live, createPalette(readThemeColors(container)))
     return () => {
       if (board) JXG.JSXGraph.freeBoard(board)
       board = undefined
@@ -42,8 +44,8 @@
     aspect-ratio: 340 / 580;
     position: relative;
     overflow: hidden;
-    background: #ffffff;
-    border: 1px solid #d9d4cb;
+    background: var(--color-base-200);
+    border: 1px solid var(--color-base-300);
     border-radius: 0;
     margin: 0;
     touch-action: none;

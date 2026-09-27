@@ -1,10 +1,7 @@
 import JXG from 'jsxgraph'
 import { getCorners } from './taperedQuad'
-import { FONT_CSS, createAxisAttributes, createQuad, inkColor, secondaryInkColor } from './jsxgraphTheme'
-
-export const baseCutColor = '#b57c0c'
-export const tipCutColor = '#1f5fbf'
-const panelColor = '#ffffff'
+import { FONT_CSS, createAxisAttributes, createQuad } from './jsxgraphTheme'
+import type { JsxPalette } from './jsxgraphTheme'
 
 export type QuadParams = {
   widthAtBase: number
@@ -90,12 +87,12 @@ synced rect width ${formatNumber(width)}`
   return { text, corners, syncedRectWidth: width }
 }
 
-export function buildGeometryVisualizationBoard(container: HTMLElement, live: LiveState): JXG.Board {
+export function buildGeometryVisualizationBoard(container: HTMLElement, live: LiveState, palette: JsxPalette): JXG.Board {
   const attributes: Partial<JXG.BoardAttributes> & {
     infobox: Partial<JXG.InfoboxOptions>
     zoom: JXG.ZoomOptions & { enabled: boolean }
   } = {
-    boundingbox: [-170, 290, 170, -290], axis: true, defaultAxes: { x: createAxisAttributes(), y: createAxisAttributes() },
+    boundingbox: [-170, 290, 170, -290], axis: true, defaultAxes: { x: createAxisAttributes(palette), y: createAxisAttributes(palette) },
     keepaspectratio: true, showNavigation: false, showCopyright: false, showInfobox: false,
     pan: { enabled: false }, zoom: { enabled: false }, drag: { enabled: true }, resize: { enabled: true, throttle: 10 },
     infobox: { cssDefaultStyle: FONT_CSS, highlight: false },
@@ -113,18 +110,18 @@ export function buildGeometryVisualizationBoard(container: HTMLElement, live: Li
     () => [-width() / 2, corners().bottomY], () => [-width() / 2, corners().topY], () => [width() / 2, corners().topY], () => [width() / 2, corners().bottomY],
   ], {
     fillOpacity: 0, highlight: false, visible: showRect,
-    borders: { strokeColor: secondaryInkColor, dash: 2, strokeWidth: 1, highlight: false }, vertices: { visible: false },
+    borders: { strokeColor: palette.secondaryInk, dash: 2, strokeWidth: 1, highlight: false }, vertices: { visible: false },
   })
-  board.create('line', [() => corners().bottomLeft, () => corners().topLeft], { strokeColor: secondaryInkColor, strokeWidth: 1, strokeOpacity: 0.6, highlight: false, visible: showLines })
-  board.create('line', [() => corners().bottomRight, () => corners().topRight], { strokeColor: secondaryInkColor, strokeWidth: 1, strokeOpacity: 0.6, highlight: false, visible: showLines })
-  board.create('line', [() => [0, corners().bottomY], () => [100, corners().bottomY + 100 * corners().bottomTangent]], { strokeColor: baseCutColor, strokeWidth: 1.5, highlight: false, visible: showLines })
-  board.create('line', [() => [0, corners().topY], () => [100, corners().topY + 100 * corners().topTangent]], { strokeColor: tipCutColor, strokeWidth: 1.5, highlight: false, visible: showLines })
-  createQuad(board, corners)
-  board.create('segment', [() => corners().bottomLeft, () => corners().topRight], { strokeColor: panelColor, dash: 3, strokeWidth: 1.5, highlight: false, visible: showTriangles })
+  board.create('line', [() => corners().bottomLeft, () => corners().topLeft], { strokeColor: palette.secondaryInk, strokeWidth: 1, strokeOpacity: 0.6, highlight: false, visible: showLines })
+  board.create('line', [() => corners().bottomRight, () => corners().topRight], { strokeColor: palette.secondaryInk, strokeWidth: 1, strokeOpacity: 0.6, highlight: false, visible: showLines })
+  board.create('line', [() => [0, corners().bottomY], () => [100, corners().bottomY + 100 * corners().bottomTangent]], { strokeColor: palette.baseCut, strokeWidth: 1.5, highlight: false, visible: showLines })
+  board.create('line', [() => [0, corners().topY], () => [100, corners().topY + 100 * corners().topTangent]], { strokeColor: palette.tipCut, strokeWidth: 1.5, highlight: false, visible: showLines })
+  createQuad(board, corners, palette)
+  board.create('segment', [() => corners().bottomLeft, () => corners().topRight], { strokeColor: palette.panel, dash: 3, strokeWidth: 1.5, highlight: false, visible: showTriangles })
 
   const midpointAttributes = { fixed: true, size: 3, highlight: false, showInfobox: false, withLabel: false, visible: showLines }
-  board.create('point', [() => 0, () => corners().bottomY], { ...midpointAttributes, strokeColor: baseCutColor, fillColor: baseCutColor })
-  board.create('point', [() => 0, () => corners().topY], { ...midpointAttributes, strokeColor: tipCutColor, fillColor: tipCutColor })
+  board.create('point', [() => 0, () => corners().bottomY], { ...midpointAttributes, strokeColor: palette.baseCut, fillColor: palette.baseCut })
+  board.create('point', [() => 0, () => corners().topY], { ...midpointAttributes, strokeColor: palette.tipCut, fillColor: palette.tipCut })
 
   const cornerLabels: { name: string; corner: () => [number, number]; offset: [number, number]; anchorX: 'left' | 'right' }[] = [
     { name: '0 BL', corner: () => corners().bottomLeft, offset: [-6, -10], anchorX: 'right' },
@@ -134,11 +131,11 @@ export function buildGeometryVisualizationBoard(container: HTMLElement, live: Li
   ]
   for (const cornerLabel of cornerLabels) {
     board.create('point', [() => cornerLabel.corner()[0], () => cornerLabel.corner()[1]], {
-      fixed: true, size: 3.5, strokeColor: inkColor, fillColor: inkColor, highlight: false, showInfobox: false,
+      fixed: true, size: 3.5, strokeColor: palette.ink, fillColor: palette.ink, highlight: false, showInfobox: false,
       name: cornerLabel.name, withLabel: true,
       label: {
         offset: cornerLabel.offset, anchorX: cornerLabel.anchorX, fontSize: 11,
-        strokeColor: inkColor, cssDefaultStyle: FONT_CSS, display: 'internal', highlight: false,
+        strokeColor: palette.ink, cssDefaultStyle: FONT_CSS, display: 'internal', highlight: false,
       },
     })
   }
