@@ -11,7 +11,7 @@
 </svelte:head>
 
 <header class="navbar fixed inset-x-0 top-0 z-30 min-h-16 bg-base-100 shadow-sm">
-  <div class="flex-1 gap-1">
+  <div class="flex min-w-0 flex-1 items-center gap-1">
     <a href={$url('/')} class="btn btn-ghost btn-circle" aria-label="Back to home">
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -26,7 +26,7 @@
     </a>
     <h1 class="truncate text-lg font-semibold">{title}</h1>
   </div>
-  <div class="flex-none">
+  <div class="flex flex-none items-center">
     <ThemeToggle />
   </div>
 </header>
