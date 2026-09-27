@@ -89,6 +89,7 @@
             <label><input type="checkbox" bind:checked={show.triangles} /> two triangles</label>
             <label><input type="checkbox" bind:checked={show.lines} /> construction lines</label>
             <label><input type="checkbox" bind:checked={show.rect} /> synced rect</label>
+            <label><input type="checkbox" bind:checked={show.circle} /> unit circle</label>
           </div>
           <div class="readout">{readout}</div>
         </div>
