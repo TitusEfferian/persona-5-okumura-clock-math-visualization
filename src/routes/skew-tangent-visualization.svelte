@@ -4,7 +4,7 @@
   import SkewTangentBoard from '../lib/SkewTangentBoard.svelte'
 
   const BOARD_W = 720
-  const BOARD_H = 560
+  const BOARD_H = 600
   const MARGIN = 16
 
   let stageW = $state(0)
