@@ -3,6 +3,7 @@
   import DetailShell from '../lib/DetailShell.svelte'
   import GeometryVisualizationBoard from '../lib/GeometryVisualizationBoard.svelte'
   import {
+    DEFAULT_PRESET,
     DEFAULT_SHOW,
     PRESETS,
     PRESET_LABELS,
@@ -24,9 +25,9 @@
     measured ? Math.min((stageW - 2 * MARGIN) / PANEL_W, (stageH - 2 * MARGIN) / panelH) : 1,
   )
 
-  const params = $state(snapPreset(PRESETS.clockhand))
+  const params = $state(snapPreset(PRESETS[DEFAULT_PRESET]))
   const show = $state({ ...DEFAULT_SHOW })
-  let activePreset = $state<PresetName | null>('clockhand')
+  let activePreset = $state<PresetName | null>(DEFAULT_PRESET)
   const readout = $derived(computeReadout(params).text)
 
   function applyPreset(name: PresetName) {
