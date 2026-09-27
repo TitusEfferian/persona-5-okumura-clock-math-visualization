@@ -42,9 +42,12 @@ export function buildAddTriangleBoard(container: HTMLElement, palette: JsxPalett
   board.create('polygon', [p2, p3, p0], { ...triangleAttributes, fillColor: palette.baseCut })
   board.create('segment', [p0, p2], { strokeColor: palette.ink, dash: 3, strokeWidth: 2, highlight: false, fixed: true })
 
-  createLabel(board, -45, 40, 'tri A  0·1·2', palette, { strokeColor: palette.tipCut })
-  createLabel(board, 45, -40, 'tri B  2·3·0', palette, { strokeColor: palette.baseCut })
-  createLabel(board, 0, -185, 'vertex at every corner dragable to understand the visualization of addVert + addTriangle', palette, { strokeColor: palette.secondaryInk, fontSize: 10 })
+  createLabel(board, -45, 40, 'tri A  0·1·2', palette, { strokeColor: palette.tipCut, fixed: true })
+  createLabel(board, 45, -40, 'tri B  2·3·0', palette, { strokeColor: palette.baseCut, fixed: true })
+  // Fixed two-line hint so it can neither be dragged nor overflow the board edges.
+  const hintAttributes = { strokeColor: palette.secondaryInk, fontSize: 10, fixed: true }
+  createLabel(board, 0, -178, 'vertex at every corner dragable to understand', palette, hintAttributes)
+  createLabel(board, 0, -190, 'the visualization of addVert + addTriangle', palette, hintAttributes)
 
   return board
 }
