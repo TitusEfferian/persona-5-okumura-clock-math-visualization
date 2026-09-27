@@ -2,6 +2,7 @@ import JXG from 'jsxgraph'
 import { getCorners } from './taperedQuad'
 import { FONT_CSS, createAxisAttributes, createLabel } from './jsxgraphTheme'
 import type { JsxPalette } from './jsxgraphTheme'
+import { createUnitCircleOverlay } from './unitCircleOverlay'
 
 const BOARD_TITLE =
   'A whole tapered quad with the square-cut version shown as a ghost behind it. At each end a cut line through the end midpoint intersects the two shared side edges, giving the four corners. Sliders set the skew at the base and at the tip.'
@@ -50,32 +51,6 @@ export interface SkewTangentBoardOptions {
 export interface SkewTangentBoardHandle {
   board: JXG.Board
   setCircleVisible(visible: boolean): void
-}
-
-function createUnitCircleOverlay(
-  board: JXG.Board, center: [number, number], corner: JXG.Point, color: string, visible: () => boolean,
-): JXG.GeometryElement[] {
-  const [cx, cy] = center
-  const R = () => corner.X() - cx
-  const tx = () => corner.X()
-  const ty = () => corner.Y()
-
-  const common = { fixed: true, highlight: false, visible }
-  const elements: JXG.GeometryElement[] = []
-
-  elements.push(board.create('circle', [center, R], {
-    ...common, layer: 4, strokeColor: color, strokeWidth: 1, strokeOpacity: 0.45, fillColor: 'none',
-  }))
-  elements.push(board.create('segment', [[tx, () => cy - R() - 10], [tx, () => cy + R() + 10]], {
-    ...common, layer: 4, strokeColor: color, strokeWidth: 1, strokeOpacity: 0.6, dash: 2,
-  }))
-  elements.push(board.create('text', [() => tx() - 5, () => (cy + ty()) / 2, 'tan θ'], {
-    ...common, visible: () => visible() && Math.abs(ty() - cy) > 12,
-    layer: 9, fontSize: 8, anchorX: 'right', anchorY: 'middle', strokeColor: color, parse: false,
-    display: 'internal', cssDefaultStyle: FONT_CSS, cssStyle: 'pointer-events:none',
-  }))
-
-  return elements
 }
 
 export function buildSkewTangentBoard(
@@ -164,8 +139,8 @@ export function buildSkewTangentBoard(
   createSector([tipReference, tipMidpoint, topRight], palette.tipCut, () => corners().topTangent >= 0, () => skewAtTip.Value())
   createSector([topRight, tipMidpoint, tipReference], palette.tipCut, () => corners().topTangent < 0, () => -skewAtTip.Value())
 
-  createUnitCircleOverlay(board, [0, Y_MIN], bottomRight, palette.baseCut, () => circleVisible)
-  createUnitCircleOverlay(board, [0, Y_MAX], topRight, palette.tipCut, () => circleVisible)
+  createUnitCircleOverlay(board, [0, Y_MIN], bottomRight, palette.baseCut, () => circleVisible, { showRise: false })
+  createUnitCircleOverlay(board, [0, Y_MAX], topRight, palette.tipCut, () => circleVisible, { showRise: false })
 
   const X = 150
   const readout = (y: number, text: string | (() => string), color = palette.ink) =>

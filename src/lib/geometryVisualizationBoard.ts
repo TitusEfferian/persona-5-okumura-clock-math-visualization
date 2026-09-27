@@ -2,6 +2,7 @@ import JXG from 'jsxgraph'
 import { getCorners } from './taperedQuad'
 import { FONT_CSS, createAxisAttributes, createQuad } from './jsxgraphTheme'
 import type { JsxPalette } from './jsxgraphTheme'
+import { createUnitCircleOverlay } from './unitCircleOverlay'
 
 export type QuadParams = {
   widthAtBase: number
@@ -15,6 +16,7 @@ export type ShowFlags = {
   triangles: boolean
   lines: boolean
   rect: boolean
+  circle: boolean
 }
 
 export type LiveState = {
@@ -50,7 +52,7 @@ export const SLIDERS: SliderSpec[] = [
   { key: 'height', label: 'height', min: 40, max: 500, step: 0.5 },
 ]
 
-export const DEFAULT_SHOW: ShowFlags = { triangles: true, lines: true, rect: true }
+export const DEFAULT_SHOW: ShowFlags = { triangles: true, lines: true, rect: true, circle: true }
 
 export function snapToStep(value: number, step: number) {
   return Math.round(value / step) * step
@@ -141,6 +143,10 @@ export function buildGeometryVisualizationBoard(container: HTMLElement, live: Li
       },
     })
   }
+
+  const showCircle = () => live.show.circle
+  createUnitCircleOverlay(board, () => [0, corners().bottomY], () => corners().bottomRight, palette.baseCut, showCircle, { showRise: true })
+  createUnitCircleOverlay(board, () => [0, corners().topY], () => corners().topRight, palette.tipCut, showCircle, { showRise: true })
 
   return board
 }
