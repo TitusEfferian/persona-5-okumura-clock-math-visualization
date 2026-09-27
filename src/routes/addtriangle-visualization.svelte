@@ -43,7 +43,6 @@
     overflow: hidden;
     background: var(--color-base-100);
     color: var(--color-base-content);
-    color-scheme: dark;
     text-align: start;
     line-height: normal;
     letter-spacing: normal;

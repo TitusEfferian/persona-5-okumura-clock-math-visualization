@@ -1,14 +1,19 @@
 @import "tailwindcss";
-/* Only the custom Persona 5 theme is compiled; no built-in themes. */
+/* Only the two custom Persona 5 themes are compiled; no built-in themes. */
 @plugin "daisyui" {
   themes: false;
 }
 
-/* Palette: https://www.color-hex.com/color-palette/1019867 ("Persona 5 Phantom Thieves") */
+/*
+ * Palette: https://www.color-hex.com/color-palette/1019867 ("Persona 5 Phantom Thieves")
+ * Both themes share the same brand colors (primary/secondary/accent/neutral/status)
+ * and shape tokens; only the base surfaces and base-content differ.
+ * Exactly one theme may be `default: true`.
+ */
 @plugin "daisyui/theme" {
-  name: "persona5royal";
+  name: "persona5dark";
   default: true;
-  prefersdark: false;
+  prefersdark: true;
   color-scheme: dark;
 
   --color-base-100: #0d0d0d;
@@ -42,6 +47,58 @@
   --border: 2px;
   --depth: 1;
   --noise: 0;
+}
+
+@plugin "daisyui/theme" {
+  name: "persona5light";
+  default: false;
+  prefersdark: false;
+  color-scheme: light;
+
+  --color-base-100: #f6f4ef;
+  --color-base-200: #efece5;
+  --color-base-300: #e6e1d8;
+  --color-base-content: #0d0d0d;
+
+  --color-primary: #d92323;
+  --color-primary-content: #ffffff;
+  --color-secondary: #732424;
+  --color-secondary-content: #ffffff;
+  --color-accent: #f2e852;
+  --color-accent-content: #0d0d0d;
+  --color-neutral: #8c6723;
+  --color-neutral-content: #ffffff;
+
+  --color-info: #3b82f6;
+  --color-info-content: #ffffff;
+  --color-success: #22c55e;
+  --color-success-content: #0d0d0d;
+  --color-warning: #f2e852;
+  --color-warning-content: #0d0d0d;
+  --color-error: #d92323;
+  --color-error-content: #ffffff;
+
+  --radius-selector: 0rem;
+  --radius-field: 0rem;
+  --radius-box: 0.25rem;
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
+  --border: 2px;
+  --depth: 1;
+  --noise: 0;
+}
+
+/*
+ * Diagram roles for the JSXGraph boards (see src/lib/jsxgraphTheme.ts).
+ * The palette yellow reads well on black but vanishes on the light paper,
+ * so the light theme swaps the tip-cut role to the dark red.
+ */
+:root {
+  --p5-base-cut: var(--color-neutral);
+  --p5-tip-cut: var(--color-accent);
+}
+[data-theme="persona5light"] {
+  --p5-tip-cut: var(--color-secondary);
 }
 
 #app {

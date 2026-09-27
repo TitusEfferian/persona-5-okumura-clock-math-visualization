@@ -1,8 +1,7 @@
 <script lang="ts">
   import { onMount } from 'svelte'
   import JXG from 'jsxgraph'
-  import { createPalette } from './jsxgraphTheme'
-  import { readThemeColors } from './themeColors'
+  import { PALETTE } from './jsxgraphTheme'
   import { DEFAULT_SHOW, PRESETS, buildGeometryVisualizationBoard, snapPreset } from './geometryVisualizationBoard'
   import type { LiveState, QuadParams, ShowFlags } from './geometryVisualizationBoard'
 
@@ -15,7 +14,7 @@
   onMount(() => {
     live.params = $state.snapshot(params)
     live.show = $state.snapshot(show)
-    board = buildGeometryVisualizationBoard(container, live, createPalette(readThemeColors(container)))
+    board = buildGeometryVisualizationBoard(container, live, PALETTE)
     return () => {
       if (board) JXG.JSXGraph.freeBoard(board)
       board = undefined

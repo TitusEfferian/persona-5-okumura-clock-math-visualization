@@ -1,6 +1,7 @@
 <!-- routify:meta reset -->
 <script lang="ts">
   import { url } from '@roxi/routify'
+  import ThemeToggle from '../lib/ThemeToggle.svelte'
 
   const links = [
     { path: '/shape-idea', label: 'Shape Idea' },
@@ -14,7 +15,10 @@
   <title>Persona 5 Okumura Kunikazu Timer Geometry Visualization</title>
 </svelte:head>
 
-<div class="hero min-h-screen bg-base-200">
+<div class="hero relative min-h-screen bg-base-200">
+  <div class="absolute top-4 right-4 z-10">
+    <ThemeToggle />
+  </div>
   <div class="hero-content w-full text-center">
     <div class="w-full max-w-5xl">
       <h1 class="text-[clamp(1.25rem,5vw,3rem)] leading-tight font-bold">

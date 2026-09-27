@@ -116,7 +116,6 @@
     overflow: hidden;
     background: var(--color-base-100);
     color: var(--color-base-content);
-    color-scheme: dark;
     text-align: start;
     line-height: normal;
     letter-spacing: normal;
@@ -239,10 +238,10 @@
     background: currentColor;
   }
   .legend .base-cut {
-    color: var(--color-neutral);
+    color: var(--p5-base-cut);
   }
   .legend .tip-cut {
-    color: var(--color-accent);
+    color: var(--p5-tip-cut);
   }
   .legend .side-edges {
     color: var(--color-base-content);
