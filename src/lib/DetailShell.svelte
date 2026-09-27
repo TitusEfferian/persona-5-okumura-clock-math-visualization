@@ -1,6 +1,7 @@
 <script lang="ts">
   import type { Snippet } from 'svelte'
   import { url } from '@roxi/routify'
+  import ThemeToggle from './ThemeToggle.svelte'
 
   let { title, children }: { title: string; children: Snippet } = $props()
 </script>
@@ -10,7 +11,7 @@
 </svelte:head>
 
 <header class="navbar fixed inset-x-0 top-0 z-30 min-h-16 bg-base-100 shadow-sm">
-  <div class="navbar-start gap-1">
+  <div class="flex-1 gap-1">
     <a href={$url('/')} class="btn btn-ghost btn-circle" aria-label="Back to home">
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -24,6 +25,9 @@
       </svg>
     </a>
     <h1 class="truncate text-lg font-semibold">{title}</h1>
+  </div>
+  <div class="flex-none">
+    <ThemeToggle />
   </div>
 </header>
 

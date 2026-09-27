@@ -1,14 +1,13 @@
 <script lang="ts">
   import { onMount } from 'svelte'
   import JXG from 'jsxgraph'
-  import { createPalette } from './jsxgraphTheme'
-  import { readThemeColors } from './themeColors'
+  import { PALETTE } from './jsxgraphTheme'
   import { buildShapeIdeaBoard } from './shapeIdeaBoard'
 
   let container: HTMLDivElement
 
   onMount(() => {
-    const board = buildShapeIdeaBoard(container, createPalette(readThemeColors(container)))
+    const board = buildShapeIdeaBoard(container, PALETTE)
     return () => JXG.JSXGraph.freeBoard(board)
   })
 </script>

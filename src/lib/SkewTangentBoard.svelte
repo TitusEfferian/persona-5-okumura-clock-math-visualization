@@ -1,14 +1,13 @@
 <script lang="ts">
   import { onMount } from 'svelte'
   import JXG from 'jsxgraph'
-  import { createPalette } from './jsxgraphTheme'
-  import { readThemeColors } from './themeColors'
+  import { PALETTE } from './jsxgraphTheme'
   import { buildSkewTangentBoard } from './skewTangentBoard'
 
   let container: HTMLDivElement
 
   onMount(() => {
-    const board = buildSkewTangentBoard(container, createPalette(readThemeColors(container)))
+    const board = buildSkewTangentBoard(container, PALETTE)
     return () => JXG.JSXGraph.freeBoard(board)
   })
 </script>
