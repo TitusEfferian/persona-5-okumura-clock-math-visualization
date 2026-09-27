@@ -5,6 +5,8 @@ import type { JsxPalette } from './jsxgraphTheme'
 
 const BOARD_TITLE =
   'The quad split into two triangles: triangle A (vertices 0,1,2) and triangle B (vertices 2,3,0), sharing the diagonal from 0 to 2. Corners can be dragged.'
+const RECT_WIDTH = 240
+const RECT_HEIGHT = 300
 
 export function buildAddTriangleBoard(container: HTMLElement, palette: JsxPalette): JXG.Board {
   const attributes: Partial<JXG.BoardAttributes> & {
@@ -19,7 +21,8 @@ export function buildAddTriangleBoard(container: HTMLElement, palette: JsxPalett
   }
   const board = JXG.JSXGraph.initBoard(container, attributes)
 
-  const c = getCorners(0, -150, 300, 200, 120, 12, 28)
+  // Equal widths and zero skew make getCorners produce a plain axis-aligned rectangle.
+  const c = getCorners(0, -RECT_HEIGHT / 2, RECT_HEIGHT, RECT_WIDTH, RECT_WIDTH, 0, 0)
   const cornerPositions: [number, number][] = [c.bottomLeft, c.topLeft, c.topRight, c.bottomRight]
   const cornerNames = ['0 BL', '1 TL', '2 TR', '3 BR']
   const labelOffsets: [number, number][] = [[-8, -4], [-8, 6], [8, 6], [8, -4]]
