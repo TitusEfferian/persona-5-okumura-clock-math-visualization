@@ -2,14 +2,14 @@
   import { onMount } from 'svelte'
   import JXG from 'jsxgraph'
   import { PALETTE } from './jsxgraphTheme'
-  import { DEFAULT_SHOW, PRESETS, buildGeometryVisualizationBoard, snapPreset } from './geometryVisualizationBoard'
+  import { DEFAULT_PRESET, DEFAULT_SHOW, PRESETS, buildGeometryVisualizationBoard, snapPreset } from './geometryVisualizationBoard'
   import type { LiveState, QuadParams, ShowFlags } from './geometryVisualizationBoard'
 
   let { params, show }: { params: QuadParams; show: ShowFlags } = $props()
 
   let container: HTMLDivElement
   let board: JXG.Board | undefined
-  const live: LiveState = { params: snapPreset(PRESETS.clockhand), show: { ...DEFAULT_SHOW } }
+  const live: LiveState = { params: snapPreset(PRESETS[DEFAULT_PRESET]), show: { ...DEFAULT_SHOW } }
 
   onMount(() => {
     live.params = $state.snapshot(params)
