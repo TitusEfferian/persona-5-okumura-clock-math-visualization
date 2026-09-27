@@ -16,6 +16,8 @@ export interface JsxPalette {
   baseCut: string
   /** Tip-end cut line, midpoint, triangle A. */
   tipCut: string
+  /** Axis tick labels */
+  axisLabel: string
 }
 
 /**
@@ -36,13 +38,14 @@ export const PALETTE: JsxPalette = {
   panel: 'var(--color-base-100)',
   baseCut: 'var(--p5-base-cut)',
   tipCut: 'var(--p5-tip-cut)',
+  axisLabel: 'var(--p5-axis-label)',
 }
 
 export const FONT_CSS = 'font-family:"IBM Plex Mono",monospace;'
 
 export function createAxisAttributes(p: JsxPalette): JXG.AxisAttributes {
   const label: JXG.LabelOptions & { cssDefaultStyle: string } = {
-    fontSize: 10, strokeColor: p.secondaryInk, display: 'internal', cssDefaultStyle: FONT_CSS, highlight: false,
+    fontSize: 10, strokeColor: p.axisLabel, display: 'internal', cssDefaultStyle: FONT_CSS, highlight: false,
   }
   return {
     strokeColor: p.grid, highlightStrokeColor: p.grid, highlight: false,
