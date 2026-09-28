@@ -100,7 +100,7 @@
   {/if}
 
   {#if ready}
-    <button class="fullscreen btn btn-sm" onclick={() => instance?.SetFullscreen(1)}>Fullscreen</button>
+    <button class="fullscreen btn btn-sm btn-primary" onclick={() => instance?.SetFullscreen(1)}>Fullscreen</button>
   {/if}
 </div>
 
