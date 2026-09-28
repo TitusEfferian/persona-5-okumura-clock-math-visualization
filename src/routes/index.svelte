@@ -8,6 +8,7 @@
     { path: '/geometry-visualization', label: 'Geometry Visualization' },
     { path: '/addtriangle-visualization', label: 'Add Triangle Visualization' },
     { path: '/skew-tangent-visualization', label: 'Skew Tangent Visualization' },
+    { path: '/unity-web-build', label: 'Demo Unity Web Build' },
   ]
 </script>
 
