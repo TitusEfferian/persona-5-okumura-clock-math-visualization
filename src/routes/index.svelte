@@ -54,9 +54,7 @@
     overflow: hidden;
     text-align: center;
     color: var(--p-ink);
-    background:
-      radial-gradient(ellipse 75% 65% at 8% 85%, var(--p-glow) 0%, transparent 70%),
-      var(--p-bg);
+    background: var(--p-page-bg);
     transition: background-color 0.3s;
   }
   .theme-slot {

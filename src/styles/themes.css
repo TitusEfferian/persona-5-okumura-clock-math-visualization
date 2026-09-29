@@ -21,6 +21,17 @@
     --p-bg: var(--color-base-100);
     --p-ink: var(--color-base-content);
     --p-glow: color-mix(in oklab, var(--color-secondary) 55%, #0d0d0d);
+    --p-glow-core: radial-gradient(circle 60vmax at 3% 97% in oklab,
+      var(--p-glow) 0%,
+      color-mix(in oklab, var(--p-glow) 60%, transparent) 35%,
+      color-mix(in oklab, var(--p-glow) 20%, transparent) 70%,
+      transparent 100%);
+    --p-glow-reach: radial-gradient(ellipse 140vmax 110vmax at 0% 100% in oklab,
+      color-mix(in oklab, var(--p-glow) 50%, transparent) 0%,
+      color-mix(in oklab, var(--p-glow) 22%, transparent) 45%,
+      color-mix(in oklab, var(--p-glow) 8%, transparent) 75%,
+      transparent 100%);
+    --p-page-bg: var(--p-glow-core), var(--p-glow-reach), var(--p-bg);
     --p-paper-edge: var(--p-white);
     --p-edge: var(--color-neutral);
     --p-btn-rim: var(--p-white);
@@ -41,7 +52,7 @@
     --p5-tip-cut: var(--color-secondary);
     --p5-axis-label: color-mix(in oklch, var(--color-base-content) 70%, transparent);
 
-    --p-glow: var(--color-base-300);
+    --p-page-bg: var(--p-bg);
     --p-paper-edge: var(--p-black);
     --p-edge: var(--p-black);
     --p-btn-rim: var(--p-black);
