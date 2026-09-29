@@ -4,7 +4,7 @@
   import DetailShell from '../lib/DetailShell.svelte'
   import RansomTitle from '../lib/RansomTitle.svelte'
   import P5Button from '../lib/P5Button.svelte'
-  import { TIMER } from '../lib/ransom'
+  import { CYCLE } from '../lib/ransom'
 </script>
 
 <DetailShell title="Page not found">
@@ -12,7 +12,7 @@
     <div class="lost-body">
       <p class="code">
         <span class="sr-only">Error 404</span>
-        <RansomTitle text="404" styles={TIMER} size="clamp(56px, 10vw, 120px)" />
+        <RansomTitle text="404" styles={CYCLE} size="clamp(64px, 12vw, 140px)" />
       </p>
       <p class="msg">This page slipped out of the Metaverse.</p>
       <P5Button href={$url('/')}>Back to home</P5Button>
@@ -45,8 +45,8 @@
   }
   .msg {
     margin: 0;
-    font: 400 clamp(16px, 2vw, 24px) / 1.3 var(--font-signature);
-    letter-spacing: 0.02em;
+    font: 700 clamp(20px, 2.4vw, 30px) / 1.2 var(--font-display);
+    letter-spacing: 0.04em;
     text-transform: uppercase;
   }
 </style>

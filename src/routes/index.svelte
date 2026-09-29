@@ -90,9 +90,8 @@
     justify-content: center;
     align-items: center;
     gap: 8px 6px;
-    /* Chango (Unity timer font) is much wider than Antonio, hence the smaller size */
-    font: 400 clamp(16px, 1.9vw, 26px) / 1 var(--font-signature);
-    letter-spacing: 0.02em;
+    font: 700 clamp(22px, 2.5vw, 34px) / 1 var(--font-display);
+    letter-spacing: 0.03em;
     text-transform: uppercase;
   }
   .words {

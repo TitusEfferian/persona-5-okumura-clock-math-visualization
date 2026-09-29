@@ -15,8 +15,6 @@
   --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
   --font-serif: "Playfair Display", ui-serif, Georgia, serif;
   --font-display: "Antonio", "Arial Narrow", ui-sans-serif, sans-serif;
-  /* Chango: the countdown-timer font of the companion Unity project (OFL 1.1). */
-  --font-signature: "Chango", ui-sans-serif, system-ui, sans-serif;
   --ease-p5: cubic-bezier(0.3, 0.7, 0.2, 1);
 }
 
@@ -161,16 +159,6 @@
  * Square corners, zero-blur shadows, yellow focus ring.
  */
 @layer components {
-  /*
-   * Red glyph outline of the Unity countdown timer
-   * (TextMesh Pro: black face, red outline). paint-order keeps the stroke
-   * behind the fill so the glyphs stay heavy.
-   */
-  .p5-timer-outline {
-    -webkit-text-stroke: var(--p-outline-w, 0.12em) var(--color-primary);
-    paint-order: stroke fill;
-  }
-
   /* Slanted red call-to-action (home nav, 404). Wrap the label in a <span>. */
   .p5-btn {
     --r: -2deg;
