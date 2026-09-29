@@ -154,29 +154,42 @@
 }
 
 /*
- * Shared Persona 5 Royal controls. Standalone on purpose (not built on
- * daisyUI `btn`, which brings a fixed height, depth shadow and :active shift).
- * Square corners, zero-blur shadows, yellow focus ring.
+ * Shared Persona 5 Royal controls, hand-written (no component framework).
+ * Square corners, zero-blur hard shadows, yellow focus ring, P5 easing.
+ * Scoped Svelte styles are unlayered, so they can position or tweak these
+ * without specificity fights (but must not override `transform` on .p5-btn,
+ * which carries the slant).
  */
 @layer components {
-  /* Slanted red call-to-action (home nav, 404). Wrap the label in a <span>. */
+  /*
+   * Slanted red call-to-action (home nav, 404, Unity fullscreen). Wrap the
+   * label in a <span> so it can counter-skew. Size knobs: --bw border width
+   * (also the shadow rim), --off shadow offset, --lift hover lift, --pad,
+   * --fs. Tilt: --r.
+   */
   .p5-btn {
     --r: -2deg;
+    --bw: 3px;
+    --off: 7px;
+    --lift: 6px;
+    --pad: 12px 26px 11px 22px;
+    --fs: clamp(18px, 1.5vw, 22px);
     display: inline-flex;
     align-items: center;
     max-width: 100%;
-    padding: 12px 26px 11px 22px;
+    padding: var(--pad);
     background-color: var(--color-primary);
     color: var(--p-white);
-    border: 3px solid var(--p-btn-rim);
+    border: var(--bw) solid var(--p-btn-rim);
     border-radius: 0;
     box-shadow:
-      7px 7px 0 0 var(--p-black),
-      7px 7px 0 3px var(--p-btn-shadow-rim);
-    font: 700 clamp(18px, 1.5vw, 22px) / 1.05 var(--font-display);
+      var(--off) var(--off) 0 0 var(--p-black),
+      var(--off) var(--off) 0 var(--bw) var(--p-btn-shadow-rim);
+    font: 700 var(--fs) / 1.05 var(--font-display);
     letter-spacing: 0.05em;
     text-transform: uppercase;
     text-decoration: none;
+    cursor: pointer;
     transform: rotate(var(--r)) skewX(-14deg);
     transition:
       transform 0.16s var(--ease-p5),
@@ -191,15 +204,23 @@
     &:hover {
       background-color: var(--p-btn-hover-bg);
       color: var(--p-btn-hover-fg);
-      transform: rotate(var(--r)) skewX(-14deg) translateY(-6px);
+      transform: rotate(var(--r)) skewX(-14deg) translateY(calc(-1 * var(--lift)));
       box-shadow:
-        10px 12px 0 0 var(--p-black),
-        10px 12px 0 3px var(--color-primary);
+        calc(var(--off) + 3px) calc(var(--off) + 5px) 0 0 var(--p-black),
+        calc(var(--off) + 3px) calc(var(--off) + 5px) 0 var(--bw) var(--color-primary);
     }
     &:focus-visible {
       outline: 3px solid var(--color-accent);
       outline-offset: 5px;
     }
+  }
+  /* Compact variant for in-canvas actions. */
+  .p5-btn-sm {
+    --bw: 2px;
+    --off: 4px;
+    --lift: 3px;
+    --pad: 6px 14px 5px 12px;
+    --fs: 15px;
   }
 
   /* Square black icon button (theme toggle, back arrow). */
@@ -232,8 +253,7 @@
       color: var(--p-black);
       transform: rotate(4deg) scale(1.06);
     }
-    &:focus-visible,
-    &:has(:focus-visible) {
+    &:focus-visible {
       outline: 3px solid var(--color-accent);
       outline-offset: 4px;
     }
