@@ -33,7 +33,7 @@
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
         </svg>
       </a>
-      <h1 class="label">{title}</h1>
+      <h1 class="title-tag">{title}</h1>
     </div>
     <div class="end">
       <ThemeToggle size="sm" />
@@ -97,7 +97,7 @@
     align-items: center;
     gap: 16px;
   }
-  .label {
+  .title-tag {
     min-width: 0;
     margin: 0 0 0 2px;
     padding: 7px 14px 6px;
@@ -117,7 +117,7 @@
     margin-left: auto;
   }
   @media (max-width: 480px) {
-    .label {
+    .title-tag {
       font-size: 17px;
     }
   }

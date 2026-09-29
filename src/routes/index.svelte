@@ -14,6 +14,9 @@
     { path: '/skew-tangent-visualization', label: 'Skew Tangent Visualization' },
     { path: '/unity-web-build', label: 'Demo Unity Web Build' },
   ]
+
+  // Design size, overridable per breakpoint via --words-rs (see .words below).
+  const WORDS_RS = 'var(--words-rs, clamp(28px, 4vw, 54px))'
 </script>
 
 <svelte:head>
@@ -21,7 +24,7 @@
 </svelte:head>
 
 <div class="home">
-  <div class="toggle">
+  <div class="theme-slot">
     <ThemeToggle />
   </div>
   <main class="wrap">
@@ -34,8 +37,8 @@
         <P5Chip tone="ink" r={-3}>Timer</P5Chip>
       </span>
       <span class="words" aria-hidden="true">
-        <RansomTitle text="Geometry" styles={CYCLE} />
-        <RansomTitle text="Visualization" styles={CYCLE} startIndex={1} />
+        <RansomTitle text="Geometry" styles={CYCLE} size={WORDS_RS} />
+        <RansomTitle text="Visualization" styles={CYCLE} startIndex={1} size={WORDS_RS} />
       </span>
     </h1>
     <nav class="links" aria-label="Visualizations">
@@ -63,7 +66,7 @@
       var(--p-bg);
     transition: background-color 0.3s;
   }
-  .toggle {
+  .theme-slot {
     position: absolute;
     top: clamp(16px, 3vh, 28px);
     right: clamp(16px, 3vw, 36px);
@@ -98,6 +101,12 @@
     align-items: flex-end;
     gap: 10px 28px;
     margin-top: 10px;
+  }
+  @media (max-width: 520px) {
+    /* keep VISUALIZATION on one line on phones */
+    .words {
+      --words-rs: clamp(18px, 5.6vw, 28px);
+    }
   }
   .links {
     margin-top: 2.75rem;

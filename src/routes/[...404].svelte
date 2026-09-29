@@ -9,7 +9,7 @@
 
 <DetailShell title="Page not found">
   <main class="lost">
-    <div class="card">
+    <div class="lost-body">
       <p class="code">
         <span class="sr-only">Error 404</span>
         <RansomTitle text="404" styles={CYCLE} size="clamp(64px, 12vw, 140px)" />
@@ -34,7 +34,7 @@
       radial-gradient(ellipse 75% 65% at 8% 85%, var(--p-glow) 0%, transparent 70%),
       var(--p-bg);
   }
-  .card {
+  .lost-body {
     display: flex;
     flex-direction: column;
     align-items: center;
