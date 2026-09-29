@@ -5,6 +5,20 @@
 }
 
 /*
+ * Type + motion tokens. Fonts are loaded once from Google Fonts in index.html.
+ * `static` emits every variable even when it is only referenced from a Svelte
+ * <style> block. --font-sans makes IBM Plex Sans the global body font; the
+ * JSXGraph boards keep IBM Plex Mono via FONT_CSS and their scoped rules.
+ */
+@theme static {
+  --font-sans: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-serif: "Playfair Display", ui-serif, Georgia, serif;
+  --font-display: "Antonio", "Arial Narrow", ui-sans-serif, sans-serif;
+  --ease-p5: cubic-bezier(0.3, 0.7, 0.2, 1);
+}
+
+/*
  * Palette: https://www.color-hex.com/color-palette/1019867 ("Persona 5 Phantom Thieves")
  * Both themes share the same brand colors (primary/secondary/accent/neutral/status)
  * and shape tokens; only the base surfaces and base-content differ.
@@ -41,7 +55,7 @@
 
   --radius-selector: 0rem;
   --radius-field: 0rem;
-  --radius-box: 0.25rem;
+  --radius-box: 0rem;
   --size-selector: 0.25rem;
   --size-field: 0.25rem;
   --border: 2px;
@@ -80,7 +94,7 @@
 
   --radius-selector: 0rem;
   --radius-field: 0rem;
-  --radius-box: 0.25rem;
+  --radius-box: 0rem;
   --size-selector: 0.25rem;
   --size-field: 0.25rem;
   --border: 2px;
@@ -93,19 +107,165 @@
  * The palette yellow reads well on black but vanishes on the light paper,
  * so the light theme swaps the tip-cut role to the dark red. The tan axis
  * labels are likewise swapped to muted ink on the light paper.
+ *
+ * The --p-* roles drive the Persona 5 Royal chrome (home hero, app bar,
+ * buttons). They reference the theme tokens so both themes stay in sync;
+ * the light block must come after :root.
  */
 :root {
   --p5-base-cut: var(--color-neutral);
   --p5-tip-cut: var(--color-accent);
-  --p5-axis-label: var(--color-neutral);
+  /* tan nudged toward yellow: ~5.6:1 on the dark board surface */
+  --p5-axis-label: color-mix(in oklab, var(--color-neutral) 70%, var(--color-accent));
+
+  --app-bar-h: 4rem;
+
+  --p-black: #0d0d0d;
+  --p-white: #f5f5f5;
+  --p-bg: var(--color-base-100);
+  --p-ink: var(--color-base-content);
+  --p-glow: color-mix(in oklab, var(--color-secondary) 55%, #0d0d0d);
+  --p-paper-edge: var(--p-white);
+  --p-edge: var(--color-neutral);
+  --p-btn-rim: var(--p-white);
+  --p-btn-shadow-rim: var(--color-neutral);
+  --p-btn-hover-bg: var(--color-accent);
+  --p-btn-hover-fg: var(--p-black);
+  --p-band-line: var(--color-neutral);
 }
 [data-theme="persona5light"] {
   --p5-tip-cut: var(--color-secondary);
   --p5-axis-label: color-mix(in oklch, var(--color-base-content) 70%, transparent);
+
+  --p-glow: var(--color-base-300);
+  --p-paper-edge: var(--p-black);
+  --p-edge: var(--p-black);
+  --p-btn-rim: var(--p-black);
+  --p-btn-shadow-rim: var(--p-black);
+  --p-btn-hover-bg: var(--p-black);
+  --p-btn-hover-fg: var(--color-base-100);
+  --p-band-line: var(--p-black);
 }
 
 #app {
   min-height: 100svh;
   display: flex;
   flex-direction: column;
+}
+
+/*
+ * Shared Persona 5 Royal controls. Standalone on purpose (not built on
+ * daisyUI `btn`, which brings a fixed height, depth shadow and :active shift).
+ * Square corners, zero-blur shadows, yellow focus ring.
+ */
+@layer components {
+  /* Slanted red call-to-action (home nav, 404). Wrap the label in a <span>. */
+  .p5-btn {
+    --r: -2deg;
+    display: inline-flex;
+    align-items: center;
+    max-width: 100%;
+    padding: 12px 26px 11px 22px;
+    background-color: var(--color-primary);
+    color: var(--p-white);
+    border: 3px solid var(--p-btn-rim);
+    border-radius: 0;
+    box-shadow:
+      7px 7px 0 0 var(--p-black),
+      7px 7px 0 3px var(--p-btn-shadow-rim);
+    font: 700 clamp(18px, 1.5vw, 22px) / 1.05 var(--font-display);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transform: rotate(var(--r)) skewX(-14deg);
+    transition:
+      transform 0.16s var(--ease-p5),
+      background-color 0.16s,
+      color 0.16s,
+      box-shadow 0.16s;
+
+    & > span {
+      display: block;
+      transform: skewX(14deg);
+    }
+    &:hover {
+      background-color: var(--p-btn-hover-bg);
+      color: var(--p-btn-hover-fg);
+      transform: rotate(var(--r)) skewX(-14deg) translateY(-6px);
+      box-shadow:
+        10px 12px 0 0 var(--p-black),
+        10px 12px 0 3px var(--color-primary);
+    }
+    &:focus-visible {
+      outline: 3px solid var(--color-accent);
+      outline-offset: 5px;
+    }
+  }
+
+  /* Square black icon button (theme toggle, back arrow). */
+  .p5-icon-btn {
+    --sz: 48px;
+    --r: -6deg;
+    --fg: var(--color-accent);
+    --bd: var(--p-edge);
+    --sh: 4px 4px 0 var(--color-primary);
+    display: inline-grid;
+    place-items: center;
+    flex: none;
+    inline-size: var(--sz);
+    block-size: var(--sz);
+    padding: 0;
+    background: var(--p-black);
+    color: var(--fg);
+    border: 2px solid var(--bd);
+    border-radius: 0;
+    box-shadow: var(--sh);
+    cursor: pointer;
+    transform: rotate(var(--r));
+    transition:
+      transform 0.16s var(--ease-p5),
+      background-color 0.16s,
+      color 0.16s;
+
+    &:hover {
+      background: var(--color-accent);
+      color: var(--p-black);
+      transform: rotate(4deg) scale(1.06);
+    }
+    &:focus-visible,
+    &:has(:focus-visible) {
+      outline: 3px solid var(--color-accent);
+      outline-offset: 4px;
+    }
+  }
+  .p5-icon-btn-sm {
+    --sz: 42px;
+    --sh: 3px 3px 0 var(--color-secondary);
+  }
+  .p5-back-btn {
+    --r: -4deg;
+    --fg: var(--p-white);
+    --bd: var(--p-white);
+
+    &:hover {
+      transform: rotate(-4deg) translateX(-4px);
+    }
+    &:focus-visible {
+      outline-offset: 3px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .p5-btn,
+    .p5-icon-btn {
+      transition: none;
+    }
+    .p5-btn:hover {
+      transform: rotate(var(--r)) skewX(-14deg);
+    }
+    .p5-icon-btn:hover,
+    .p5-back-btn:hover {
+      transform: rotate(var(--r));
+    }
+  }
 }

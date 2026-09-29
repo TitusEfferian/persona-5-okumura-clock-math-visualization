@@ -15,12 +15,6 @@
   )
 </script>
 
-<svelte:head>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400&display=swap" />
-</svelte:head>
-
 <DetailShell title="Skew Tangent Visualization">
 <div class="stage" bind:clientWidth={stageW} bind:clientHeight={stageH}>
   <div
