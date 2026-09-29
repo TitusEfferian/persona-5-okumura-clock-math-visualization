@@ -30,7 +30,7 @@
 <style>
   .stage {
     position: fixed;
-    top: 4rem;
+    top: var(--app-bar-h);
     right: 0;
     bottom: 0;
     left: 0;
