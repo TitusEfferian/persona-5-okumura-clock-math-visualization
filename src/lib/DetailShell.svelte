@@ -11,8 +11,6 @@
 </svelte:head>
 
 <header class="app-bar">
-  <div class="band-line" aria-hidden="true"></div>
-  <div class="band" aria-hidden="true"></div>
   <div class="halftone" aria-hidden="true"></div>
   <div class="row">
     <div class="start">
@@ -46,41 +44,24 @@
     top: 0;
     z-index: 30;
     height: var(--app-bar-h);
-    background-color: var(--color-base-100);
+    background-color: var(--color-primary);
+    border-bottom: 4px solid var(--p-band-line);
   }
-  .band-line,
-  .band,
   .halftone {
     position: absolute;
-    top: 0;
-    pointer-events: none;
-  }
-  .band-line {
-    inset: 0;
-    background-color: var(--p-band-line);
-    clip-path: polygon(0 0, 100% 0, 100% 80%, 0 100%);
-  }
-  .band {
-    left: 0;
-    right: 0;
-    height: calc(100% - 4px);
-    background-color: var(--color-primary);
-    clip-path: polygon(0 0, 100% 0, 100% 80%, 0 100%);
-  }
-  .halftone {
+    inset-block: 0;
     right: 0;
     width: 38%;
-    height: calc(100% - 4px);
+    pointer-events: none;
     background-image: radial-gradient(circle, var(--p-black) 1.6px, transparent 2px);
     background-size: 9px 9px;
     opacity: 0.28;
-    clip-path: polygon(0 0, 100% 0, 100% 80%, 0 94%);
     -webkit-mask-image: linear-gradient(90deg, transparent, #000 70%);
     mask-image: linear-gradient(90deg, transparent, #000 70%);
   }
   .row {
     position: relative;
-    height: calc(100% - 8px);
+    height: 100%;
     display: flex;
     align-items: center;
     gap: 14px;
