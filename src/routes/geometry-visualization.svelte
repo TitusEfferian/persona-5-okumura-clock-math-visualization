@@ -123,11 +123,6 @@
   .play :global(*::before) {
     box-sizing: border-box;
   }
-  /*
-   * P5R chrome only: width (848px = PANEL_W), border width and padding are
-   * unchanged so the route's scale math and the board column keep their size.
-   * box-shadow does not affect layout. The panel itself is never transformed.
-   */
   .play {
     width: 848px;
     font: 16px/1.55 'IBM Plex Sans', system-ui, sans-serif;
@@ -180,7 +175,6 @@
     margin: 0 0 16px;
     padding-left: 4px;
   }
-  /* Slanted P5 tabs; the inner span counter-skews so the label stays upright. */
   .presets button {
     font: 700 15px/1.1 var(--font-display);
     letter-spacing: 0.04em;

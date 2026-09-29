@@ -38,10 +38,6 @@
     gap: 0.5rem;
     width: 720px;
   }
-  /*
-   * P5R switch. The row stays 1.25rem tall: the route's BOARD_H (600) budgets
-   * the 560px board + this row + the 0.5rem gap.
-   */
   .switch {
     display: inline-flex;
     align-items: center;
@@ -52,7 +48,6 @@
     color: color-mix(in oklab, var(--color-base-content) 60%, transparent);
     cursor: pointer;
   }
-  /* The knob is a background layer (not ::before) so it renders in every engine. */
   .switch input {
     --knob: var(--p-edge);
     appearance: none;
@@ -86,7 +81,6 @@
       transition: none;
     }
   }
-  /* Windows High Contrast etc.: fall back to the native checkbox. */
   @media (forced-colors: active) {
     .switch input {
       appearance: auto;

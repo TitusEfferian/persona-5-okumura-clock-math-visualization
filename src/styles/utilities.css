@@ -1,5 +1,4 @@
 @layer utilities {
-  /* Visually hidden, still announced by screen readers. */
   .sr-only {
     position: absolute;
     width: 1px;

@@ -1,13 +1,11 @@
 <script lang="ts">
   import { theme, toggleTheme } from './theme.svelte'
 
-  /** lg = 48px (home), sm = 42px (app bar). */
   let { size = 'lg' }: { size?: 'lg' | 'sm' } = $props()
 
   const isLight = $derived(theme.current === 'persona5light')
 </script>
 
-<!-- Toggle button: the name stays constant, aria-pressed carries the state (pressed = light). -->
 <button
   type="button"
   class={['p5-icon-btn', size === 'sm' && 'p5-icon-btn-sm', isLight && 'is-light']}
@@ -30,7 +28,6 @@
 </button>
 
 <style>
-  /* Both icons share one grid cell; the inactive one is rotated away and faded out. */
   .icon {
     grid-area: 1 / 1;
     inline-size: 1.25rem;

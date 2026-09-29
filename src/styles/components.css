@@ -1,17 +1,4 @@
-/*
- * Shared Persona 5 Royal controls, hand-written (no component framework).
- * Square corners, zero-blur hard shadows, yellow focus ring, P5 easing.
- * Scoped Svelte styles are unlayered, so they can position or tweak these
- * without specificity fights (but must not override `transform` on .p5-btn,
- * which carries the slant).
- */
 @layer components {
-  /*
-   * Slanted red call-to-action (home nav, 404, Unity fullscreen). Wrap the
-   * label in a <span> so it can counter-skew. Size knobs: --bw border width
-   * (also the shadow rim), --off shadow offset, --lift hover lift, --pad,
-   * --fs. Tilt: --r.
-   */
   .p5-btn {
     --r: -2deg;
     --bw: 3px;
@@ -59,7 +46,6 @@
       outline-offset: 5px;
     }
   }
-  /* Compact variant for in-canvas actions. */
   .p5-btn-sm {
     --bw: 2px;
     --off: 4px;
@@ -68,7 +54,6 @@
     --fs: 15px;
   }
 
-  /* Square black icon button (theme toggle, back arrow). */
   .p5-icon-btn {
     --sz: 48px;
     --r: -6deg;

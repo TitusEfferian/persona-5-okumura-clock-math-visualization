@@ -1,8 +1,3 @@
-/*
- * Minimal modern reset (the subset of Tailwind's Preflight this app relied on).
- * Layered, so every Svelte <style> block and the vendor jsxgraph.css
- * (both unlayered) win over it without any specificity games.
- */
 @layer reset {
   *,
   ::before,

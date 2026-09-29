@@ -1,16 +1,8 @@
 /*
- * The two Persona 5 themes, selected by <html data-theme> (set before first
- * paint by the inline script in index.html and kept in sync by
- * src/lib/theme.svelte.ts). Dark is the default; the light block must come
- * after it (both selectors have the same specificity).
- *
- * Diagram roles (--p5-*) feed the JSXGraph boards (src/lib/jsxgraphTheme.ts).
+ * Diagram roles for the JSXGraph boards (see src/lib/jsxgraphTheme.ts).
  * The palette yellow reads well on black but vanishes on the light paper,
  * so the light theme swaps the tip-cut role to the dark red. The tan axis
  * labels are likewise swapped to muted ink on the light paper.
- *
- * The --p-* roles drive the Persona 5 Royal chrome (home hero, app bar,
- * buttons). They reference the theme tokens so both themes stay in sync.
  */
 @layer themes {
   :root,
@@ -24,7 +16,6 @@
 
     --p5-base-cut: var(--color-neutral);
     --p5-tip-cut: var(--color-accent);
-    /* tan nudged toward yellow: ~5.6:1 on the dark board surface */
     --p5-axis-label: color-mix(in oklab, var(--color-neutral) 70%, var(--color-accent));
 
     --p-bg: var(--color-base-100);

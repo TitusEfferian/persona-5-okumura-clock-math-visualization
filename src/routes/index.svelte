@@ -15,7 +15,6 @@
     { path: '/unity-web-build', label: 'Demo Unity Web Build' },
   ]
 
-  // Design size, overridable per breakpoint via --words-rs (see .words below).
   const WORDS_RS = 'var(--words-rs, clamp(28px, 4vw, 54px))'
 </script>
 
@@ -103,7 +102,6 @@
     margin-top: 10px;
   }
   @media (max-width: 520px) {
-    /* keep VISUALIZATION on one line on phones */
     .words {
       --words-rs: clamp(18px, 5.6vw, 28px);
     }

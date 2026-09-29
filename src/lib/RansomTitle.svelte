@@ -4,15 +4,10 @@
   import type { TileStyle } from './ransom'
 
   interface Props {
-    /** Letters to render; whitespace is dropped. */
     text: string
-    /** Tile styles, applied cyclically. */
     styles: TileStyle[]
-    /** Index into `styles` used for the first letter. */
     startIndex?: number
-    /** Base letter size (--rs); each tile scales it by its multiplier. */
     size?: string
-    /** Default tile padding (a tile style's own `pad` wins). */
     pad?: string
     class?: ClassValue
   }
@@ -31,7 +26,6 @@
   )
 </script>
 
-<!-- Decorative: the accessible name lives on the surrounding heading. -->
 <span class={['ransom', klass]} style:--rs={size} style:--tile-pad={pad} aria-hidden="true">
   {#each tiles as { ch, s }, i (i)}
     <span

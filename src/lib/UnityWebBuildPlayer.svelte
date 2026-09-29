@@ -95,7 +95,6 @@
     </div>
   {/if}
 
-  <!-- Persistent live region so banner messages are announced when they appear. -->
   <div class="banner-region" role="status">
     {#if banner}
       <p class="banner">{banner}</p>
@@ -139,7 +138,6 @@
     font-size: 0.875rem;
     line-height: 1.25rem;
   }
-  /* P5R progress bar: square, slanted, hard-edged. */
   .bar {
     appearance: none;
     display: block;
@@ -152,7 +150,6 @@
     overflow: hidden;
     transform: skewX(-14deg);
   }
-  /* Vendor pseudo-elements stay in separate rules: an unknown one would drop the whole rule. */
   .bar::-webkit-progress-bar {
     background-color: var(--color-base-300);
   }
@@ -184,7 +181,6 @@
     transform: rotate(-1deg);
     pointer-events: auto;
   }
-  /* Position only: .p5-btn owns `transform` (its slant). Inset leaves room for the hard shadow. */
   .fullscreen {
     position: absolute;
     right: 1rem;

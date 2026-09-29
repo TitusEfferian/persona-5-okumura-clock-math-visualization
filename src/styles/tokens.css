@@ -1,14 +1,7 @@
 /*
- * Theme-independent design tokens: type, motion, layout and the brand palette.
- * Fonts are loaded once from Google Fonts in index.html. The JSXGraph boards
- * keep IBM Plex Mono via FONT_CSS (src/lib/jsxgraphTheme.ts) and their scoped
- * rules.
- *
- * Palette: https://www.color-hex.com/color-palette/1019867 ("Persona 5 Phantom Thieves").
- * Both themes share the brand colors (primary/secondary/accent/neutral/status);
- * only the base surfaces and base-content differ (see themes.css). The
- * --color-* names are load-bearing: jsxgraphTheme.ts PALETTE, ransom.ts and the
- * scoped component styles reference them.
+ * Palette: https://www.color-hex.com/color-palette/1019867 ("Persona 5 Phantom Thieves")
+ * Both themes share the same brand colors (primary/secondary/accent/neutral/status)
+ * and shape tokens; only the base surfaces and base-content differ.
  */
 @layer tokens {
   :root {
@@ -19,7 +12,6 @@
 
     --ease-p5: cubic-bezier(0.3, 0.7, 0.2, 1);
 
-    /* Fixed detail-page header; every detail route offsets its .stage by it. */
     --app-bar-h: 4rem;
 
     --p-black: #0d0d0d;

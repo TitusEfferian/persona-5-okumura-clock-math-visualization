@@ -3,7 +3,6 @@
 
   interface Props extends HTMLAnchorAttributes {
     href: string
-    /** tilt in degrees (the slant itself comes from .p5-btn in app.css) */
     r?: number
   }
 

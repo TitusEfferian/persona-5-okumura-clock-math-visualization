@@ -25,10 +25,10 @@ export interface JsxPalette {
  * renderer writes any color string that is not a 9-character #rrggbbaa verbatim
  * into `stroke` / `fill` / `style.color`, with opacity kept in the separate
  * `-opacity` attributes, so `var(--color-*)` is passed through untouched and the
- * browser resolves it against the active `data-theme` (see src/styles/themes.css).
- * Switching themes re-colors every board with zero JS. This is safe because the
- * app only uses the SVG renderer: no canvas renderer, image export, or color
- * animation, which would need real color values.
+ * browser resolves it against the active `data-theme`. Switching themes
+ * re-colors every board with zero JS. This is safe because the app only uses the
+ * SVG renderer: no canvas renderer, image export, or color animation, which would
+ * need real color values.
  */
 export const PALETTE: JsxPalette = {
   ink: 'var(--color-base-content)',

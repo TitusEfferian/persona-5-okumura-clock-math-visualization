@@ -10,11 +10,6 @@
   <title>{title}</title>
 </svelte:head>
 
-<!--
-  Persona 5 Royal app bar. Height is --app-bar-h; every detail route offsets
-  its fixed .stage by the same variable. The slanted band layers are purely
-  decorative and sit behind the content row (the stage/board stays flat).
--->
 <header class="app-bar">
   <div class="band-line" aria-hidden="true"></div>
   <div class="band" aria-hidden="true"></div>

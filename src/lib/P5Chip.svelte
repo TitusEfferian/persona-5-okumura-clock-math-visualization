@@ -3,9 +3,7 @@
 
   interface Props {
     tone: 'yellow' | 'paper' | 'ink'
-    /** rotation in degrees */
     r?: number
-    /** vertical nudge in px */
     y?: number
     children: Snippet
   }
