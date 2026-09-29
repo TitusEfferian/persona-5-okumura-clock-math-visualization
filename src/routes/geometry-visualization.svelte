@@ -56,7 +56,7 @@
             aria-pressed={activePreset === name}
             onclick={() => applyPreset(name)}
           >
-            {PRESET_LABELS[name]}
+            <span>{PRESET_LABELS[name]}</span>
           </button>
         {/each}
       </div>
@@ -123,12 +123,21 @@
   .play :global(*::before) {
     box-sizing: border-box;
   }
+  /*
+   * P5R chrome only: width (848px = PANEL_W), border width and padding are
+   * unchanged so the route's scale math and the board column keep their size.
+   * box-shadow does not affect layout. The panel itself is never transformed.
+   */
   .play {
     width: 848px;
     font: 16px/1.55 'IBM Plex Sans', system-ui, sans-serif;
     color: var(--color-base-content);
     background: var(--color-base-200);
-    border: 2px solid var(--color-base-300);
+    border: 2px solid var(--p-edge);
+    border-radius: 0;
+    box-shadow:
+      5px 5px 0 0 var(--p-black),
+      5px 5px 0 2px var(--color-primary);
     padding: 16px;
     margin: 0;
   }
@@ -167,35 +176,52 @@
   .presets {
     display: flex;
     flex-wrap: wrap;
-    gap: 8px;
-    margin: 0 0 14px;
+    gap: 10px 12px;
+    margin: 0 0 16px;
+    padding-left: 4px;
   }
+  /* Slanted P5 tabs; the inner span counter-skews so the label stays upright. */
   .presets button {
-    font: 600 13px 'IBM Plex Sans', sans-serif;
-    background: var(--color-base-200);
-    color: var(--color-base-content);
-    border: 2px solid var(--color-base-300);
-    padding: 6px 12px;
+    font: 700 15px/1.1 var(--font-display);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    background: var(--p-black);
+    color: var(--p-white);
+    border: 2px solid var(--p-paper-edge);
+    border-radius: 0;
+    box-shadow: 3px 3px 0 var(--color-secondary);
+    padding: 7px 14px 6px;
     cursor: pointer;
-    border-radius: 2px;
+    transform: skewX(-10deg);
+    transition:
+      background-color 0.16s var(--ease-p5),
+      color 0.16s var(--ease-p5),
+      box-shadow 0.16s var(--ease-p5);
   }
-  .presets button:hover,
-  .presets button:focus-visible {
-    background: var(--color-primary);
-    color: var(--color-primary-content);
-    border-color: var(--color-primary);
-    outline: none;
+  .presets button > span {
+    display: block;
+    transform: skewX(10deg);
   }
   .presets button.on {
     background: var(--color-primary);
-    color: var(--color-primary-content);
-    border-color: var(--color-primary);
+    color: var(--p-white);
+    border-color: var(--color-accent);
+    box-shadow: 3px 3px 0 var(--p-black);
+  }
+  .presets button:hover {
+    background: var(--color-accent);
+    color: var(--p-black);
+  }
+  .presets button:focus-visible {
+    outline: 3px solid var(--color-accent);
+    outline-offset: 3px;
   }
   .readout {
     font-family: 'IBM Plex Mono', monospace;
     font-size: 12.5px;
     line-height: 1.6;
-    background: var(--color-base-200);
+    background: var(--color-base-100);
+    border-left: 3px solid var(--color-primary);
     padding: 10px 12px;
     margin-top: 12px;
     overflow-x: auto;
@@ -214,12 +240,17 @@
     align-items: center;
     cursor: pointer;
   }
+  .toggles input[type='checkbox'] {
+    accent-color: var(--color-primary);
+  }
   .legend {
     display: flex;
     gap: 16px;
     flex-wrap: wrap;
-    font-size: 13px;
-    margin-top: 6px;
+    font: 700 14px/1.4 var(--font-display);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-top: 8px;
   }
   .legend span::before {
     content: '';
@@ -239,5 +270,10 @@
   .legend .side-edges {
     color: var(--color-base-content);
     opacity: 0.6;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .presets button {
+      transition: none;
+    }
   }
 </style>
