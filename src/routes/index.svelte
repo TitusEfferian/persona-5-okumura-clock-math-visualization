@@ -5,7 +5,7 @@
   import RansomTitle from '../lib/RansomTitle.svelte'
   import P5Chip from '../lib/P5Chip.svelte'
   import P5Button from '../lib/P5Button.svelte'
-  import { CYCLE, PERSONA5 } from '../lib/ransom'
+  import { PERSONA5 } from '../lib/ransom'
 
   const links = [
     { path: '/shape-idea', label: 'Shape Idea' },
@@ -14,12 +14,10 @@
     { path: '/skew-tangent-visualization', label: 'Skew Tangent Visualization' },
     { path: '/unity-web-build', label: 'Demo Unity Web Build' },
   ]
-
-  const WORDS_RS = 'var(--words-rs, clamp(28px, 4vw, 54px))'
 </script>
 
 <svelte:head>
-  <title>Persona 5 Okumura Kunikazu Timer Geometry Visualization</title>
+  <title>Persona 5 Okumura Kunikazu Timer</title>
 </svelte:head>
 
 <div class="home">
@@ -28,16 +26,12 @@
   </div>
   <main class="wrap">
     <h1 class="title">
-      <span class="sr-only">Persona 5 Okumura Kunikazu Timer Geometry Visualization</span>
+      <span class="sr-only">Persona 5 Okumura Kunikazu Timer</span>
       <RansomTitle text="Persona5" styles={PERSONA5} size="clamp(30px, 4.2vw, 56px)" pad=".06em .16em .04em" />
       <span class="chips" aria-hidden="true">
         <P5Chip tone="yellow" r={-2}>Okumura</P5Chip>
         <P5Chip tone="paper" r={1.5} y={3}>Kunikazu</P5Chip>
         <P5Chip tone="ink" r={-3}>Timer</P5Chip>
-      </span>
-      <span class="words" aria-hidden="true">
-        <RansomTitle text="Geometry" styles={CYCLE} size={WORDS_RS} />
-        <RansomTitle text="Visualization" styles={CYCLE} startIndex={1} size={WORDS_RS} />
       </span>
     </h1>
     <nav class="links" aria-label="Visualizations">
@@ -92,19 +86,6 @@
     font: 700 clamp(22px, 2.5vw, 34px) / 1 var(--font-display);
     letter-spacing: 0.03em;
     text-transform: uppercase;
-  }
-  .words {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: flex-end;
-    gap: 10px 28px;
-    margin-top: 10px;
-  }
-  @media (max-width: 520px) {
-    .words {
-      --words-rs: clamp(18px, 5.6vw, 28px);
-    }
   }
   .links {
     margin-top: 2.75rem;
