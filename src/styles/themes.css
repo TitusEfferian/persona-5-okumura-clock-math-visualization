@@ -52,7 +52,7 @@
     --p5-tip-cut: var(--color-secondary);
     --p5-axis-label: color-mix(in oklch, var(--color-base-content) 70%, transparent);
 
-    --p-glow: var(--color-base-300);
+    --p-glow: color-mix(in oklab, var(--color-primary) 22%, var(--color-base-100));
     --p-paper-edge: var(--p-black);
     --p-edge: var(--p-black);
     --p-btn-rim: var(--p-black);
