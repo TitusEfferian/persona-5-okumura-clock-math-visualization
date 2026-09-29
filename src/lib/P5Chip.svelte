@@ -14,7 +14,7 @@
 </script>
 
 <span
-  class={{ chip: true, yellow: tone === 'yellow', paper: tone === 'paper', ink: tone === 'ink' }}
+  class={{ chip: true, 'p5-timer-outline': tone === 'yellow', yellow: tone === 'yellow', paper: tone === 'paper', ink: tone === 'ink' }}
   style:--r="{r}deg"
   style:--y="{y}px">{@render children()}</span
 >

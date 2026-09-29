@@ -35,7 +35,7 @@
 <span class={['ransom', klass]} style:--rs={size} style:--tile-pad={pad} aria-hidden="true">
   {#each tiles as { ch, s }, i (i)}
     <span
-      class="tile"
+      class={['tile', s.outline && 'p5-timer-outline']}
       style:background-color={s.bg}
       style:color={s.fg}
       style:border={s.border ?? null}
@@ -43,7 +43,7 @@
       style:margin-left={s.ml ?? null}
       style:box-shadow={s.shadow ?? null}
       style:font-family={FONT_FAMILY[s.font]}
-      style:font-weight={s.font === 'serif' || s.font === 'serif-italic' ? 900 : 700}
+      style:font-weight={s.font === 'signature' ? 400 : s.font === 'serif' || s.font === 'serif-italic' ? 900 : 700}
       style:font-style={s.font === 'serif-italic' ? 'italic' : null}
       style:font-size="calc(var(--rs) * {s.mult})"
       style:transform="rotate({s.rot}deg) translateY({s.ty ?? 0}em)">{ch}</span
