@@ -40,15 +40,6 @@
   }
 </script>
 
-<svelte:head>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
-  <link
-    rel="stylesheet"
-    href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;600&display=swap"
-  />
-</svelte:head>
-
 <DetailShell title="Geometry Visualization">
 <div class="stage" bind:clientWidth={stageW} bind:clientHeight={stageH}>
   <div
@@ -65,7 +56,7 @@
             aria-pressed={activePreset === name}
             onclick={() => applyPreset(name)}
           >
-            {PRESET_LABELS[name]}
+            <span>{PRESET_LABELS[name]}</span>
           </button>
         {/each}
       </div>
@@ -111,7 +102,7 @@
 <style>
   .stage {
     position: fixed;
-    top: 4rem;
+    top: var(--app-bar-h);
     right: 0;
     bottom: 0;
     left: 0;
@@ -137,7 +128,11 @@
     font: 16px/1.55 'IBM Plex Sans', system-ui, sans-serif;
     color: var(--color-base-content);
     background: var(--color-base-200);
-    border: 2px solid var(--color-base-300);
+    border: 2px solid var(--p-edge);
+    border-radius: 0;
+    box-shadow:
+      5px 5px 0 0 var(--p-black),
+      5px 5px 0 2px var(--color-primary);
     padding: 16px;
     margin: 0;
   }
@@ -176,35 +171,51 @@
   .presets {
     display: flex;
     flex-wrap: wrap;
-    gap: 8px;
-    margin: 0 0 14px;
+    gap: 10px 12px;
+    margin: 0 0 16px;
+    padding-left: 4px;
   }
   .presets button {
-    font: 600 13px 'IBM Plex Sans', sans-serif;
-    background: var(--color-base-200);
-    color: var(--color-base-content);
-    border: 2px solid var(--color-base-300);
-    padding: 6px 12px;
+    font: 700 15px/1.1 var(--font-display);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    background: var(--p-black);
+    color: var(--p-white);
+    border: 2px solid var(--p-paper-edge);
+    border-radius: 0;
+    box-shadow: 3px 3px 0 var(--color-secondary);
+    padding: 7px 14px 6px;
     cursor: pointer;
-    border-radius: 2px;
+    transform: skewX(-10deg);
+    transition:
+      background-color 0.16s var(--ease-p5),
+      color 0.16s var(--ease-p5),
+      box-shadow 0.16s var(--ease-p5);
   }
-  .presets button:hover,
-  .presets button:focus-visible {
-    background: var(--color-primary);
-    color: var(--color-primary-content);
-    border-color: var(--color-primary);
-    outline: none;
+  .presets button > span {
+    display: block;
+    transform: skewX(10deg);
   }
   .presets button.on {
     background: var(--color-primary);
-    color: var(--color-primary-content);
-    border-color: var(--color-primary);
+    color: var(--p-white);
+    border-color: var(--color-accent);
+    box-shadow: 3px 3px 0 var(--p-black);
+  }
+  .presets button:hover {
+    background: var(--color-accent);
+    color: var(--p-black);
+  }
+  .presets button:focus-visible {
+    outline: 3px solid var(--color-accent);
+    outline-offset: 3px;
   }
   .readout {
     font-family: 'IBM Plex Mono', monospace;
     font-size: 12.5px;
     line-height: 1.6;
-    background: var(--color-base-200);
+    background: var(--color-base-100);
+    border-left: 3px solid var(--color-primary);
     padding: 10px 12px;
     margin-top: 12px;
     overflow-x: auto;
@@ -223,12 +234,17 @@
     align-items: center;
     cursor: pointer;
   }
+  .toggles input[type='checkbox'] {
+    accent-color: var(--color-primary);
+  }
   .legend {
     display: flex;
     gap: 16px;
     flex-wrap: wrap;
-    font-size: 13px;
-    margin-top: 6px;
+    font: 700 14px/1.4 var(--font-display);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-top: 8px;
   }
   .legend span::before {
     content: '';
@@ -248,5 +264,10 @@
   .legend .side-edges {
     color: var(--color-base-content);
     opacity: 0.6;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .presets button {
+      transition: none;
+    }
   }
 </style>

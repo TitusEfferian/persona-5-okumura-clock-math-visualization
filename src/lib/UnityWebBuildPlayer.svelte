@@ -87,20 +87,24 @@
   {#if !ready}
     <div class="overlay">
       {#if error}
-        <p class="text-error font-semibold">{error}</p>
+        <p class="error" role="alert">{error}</p>
       {:else}
-        <progress class="progress progress-primary w-56" value={progress} max="1"></progress>
-        <p class="text-sm">Loading Unity build… {percent}%</p>
+        <progress class="bar" value={progress} max="1" aria-label="Loading Unity build"></progress>
+        <p class="status">Loading Unity build… {percent}%</p>
       {/if}
     </div>
   {/if}
 
-  {#if banner}
-    <div class="banner alert alert-warning">{banner}</div>
-  {/if}
+  <div class="banner-region" role="status">
+    {#if banner}
+      <p class="banner">{banner}</p>
+    {/if}
+  </div>
 
   {#if ready}
-    <button class="fullscreen btn btn-sm btn-primary" onclick={() => instance?.SetFullscreen(1)}>Fullscreen</button>
+    <button type="button" class="fullscreen p5-btn p5-btn-sm" onclick={() => instance?.SetFullscreen(1)}>
+      <span>Fullscreen</span>
+    </button>
   {/if}
 </div>
 
@@ -126,17 +130,60 @@
     background: var(--color-base-200);
     color: var(--color-base-content);
   }
-  .banner {
+  .error {
+    color: var(--color-error);
+    font-weight: 600;
+  }
+  .status {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+  }
+  .bar {
+    appearance: none;
+    display: block;
+    inline-size: 14rem;
+    block-size: 0.75rem;
+    border: 2px solid var(--p-edge);
+    border-radius: 0;
+    background-color: var(--color-base-300);
+    color: var(--color-primary);
+    overflow: hidden;
+    transform: skewX(-14deg);
+  }
+  .bar::-webkit-progress-bar {
+    background-color: var(--color-base-300);
+  }
+  .bar::-webkit-progress-value {
+    background-color: var(--color-primary);
+  }
+  .bar::-moz-progress-bar {
+    background-color: var(--color-primary);
+  }
+  .banner-region {
     position: absolute;
-    left: 50%;
     top: 0.75rem;
-    transform: translateX(-50%);
-    width: max-content;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    pointer-events: none;
+  }
+  .banner {
     max-width: calc(100% - 1.5rem);
+    padding: 0.5rem 0.875rem;
+    background-color: var(--color-warning);
+    color: var(--color-warning-content);
+    border: 2px solid var(--p-black);
+    box-shadow: 4px 4px 0 var(--p-black);
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    font-weight: 600;
+    transform: rotate(-1deg);
+    pointer-events: auto;
   }
   .fullscreen {
     position: absolute;
-    right: 0.5rem;
-    bottom: 0.5rem;
+    right: 1rem;
+    bottom: 1rem;
   }
 </style>

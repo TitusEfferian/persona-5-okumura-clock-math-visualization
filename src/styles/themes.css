@@ -1,0 +1,53 @@
+/*
+ * Diagram roles for the JSXGraph boards (see src/lib/jsxgraphTheme.ts).
+ * The palette yellow reads well on black but vanishes on the light paper,
+ * so the light theme swaps the tip-cut role to the dark red. The tan axis
+ * labels are likewise swapped to muted ink on the light paper.
+ */
+@layer themes {
+  :root,
+  [data-theme="persona5dark"] {
+    color-scheme: dark;
+
+    --color-base-100: #0d0d0d;
+    --color-base-200: #161616;
+    --color-base-300: #222222;
+    --color-base-content: #f5f5f5;
+
+    --p5-base-cut: var(--color-neutral);
+    --p5-tip-cut: var(--color-accent);
+    --p5-axis-label: color-mix(in oklab, var(--color-neutral) 70%, var(--color-accent));
+
+    --p-bg: var(--color-base-100);
+    --p-ink: var(--color-base-content);
+    --p-glow: color-mix(in oklab, var(--color-secondary) 55%, #0d0d0d);
+    --p-paper-edge: var(--p-white);
+    --p-edge: var(--color-neutral);
+    --p-btn-rim: var(--p-white);
+    --p-btn-shadow-rim: var(--color-neutral);
+    --p-btn-hover-bg: var(--color-accent);
+    --p-btn-hover-fg: var(--p-black);
+    --p-band-line: var(--color-neutral);
+  }
+
+  [data-theme="persona5light"] {
+    color-scheme: light;
+
+    --color-base-100: #f6f4ef;
+    --color-base-200: #efece5;
+    --color-base-300: #e6e1d8;
+    --color-base-content: #0d0d0d;
+
+    --p5-tip-cut: var(--color-secondary);
+    --p5-axis-label: color-mix(in oklch, var(--color-base-content) 70%, transparent);
+
+    --p-glow: var(--color-base-300);
+    --p-paper-edge: var(--p-black);
+    --p-edge: var(--p-black);
+    --p-btn-rim: var(--p-black);
+    --p-btn-shadow-rim: var(--p-black);
+    --p-btn-hover-bg: var(--p-black);
+    --p-btn-hover-fg: var(--color-base-100);
+    --p-band-line: var(--p-black);
+  }
+}

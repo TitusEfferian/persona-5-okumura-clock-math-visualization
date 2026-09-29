@@ -15,12 +15,6 @@
   )
 </script>
 
-<svelte:head>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400&display=swap" />
-</svelte:head>
-
 <DetailShell title="Shape Idea">
 <div class="stage" bind:clientWidth={stageW} bind:clientHeight={stageH}>
   <div
@@ -36,7 +30,7 @@
 <style>
   .stage {
     position: fixed;
-    top: 4rem;
+    top: var(--app-bar-h);
     right: 0;
     bottom: 0;
     left: 0;

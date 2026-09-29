@@ -1,0 +1,14 @@
+@layer base {
+  html {
+    font-family: var(--font-sans);
+    background-color: var(--color-base-100);
+    color: var(--color-base-content);
+    scrollbar-color: color-mix(in oklch, currentColor 35%, transparent) transparent;
+  }
+
+  #app {
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+  }
+}
